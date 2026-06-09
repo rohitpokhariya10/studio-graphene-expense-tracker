@@ -1,10 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { createExpense, getExpenses } from "./expense.controller.js";
+import {
+  createExpense,
+  getExpenses,
+  updateExpense,
+} from "./expense.controller.js";
 import * as expenseService from "../services/expense.service.js";
 
 vi.mock("../services/expense.service.js", () => ({
   createExpense: vi.fn(),
   getExpenses: vi.fn(),
+  updateExpense: vi.fn(),
 }));
 
 describe("createExpense controller", () => {
@@ -110,6 +115,64 @@ describe("getExpenses controller", () => {
     expenseService.getExpenses.mockRejectedValue(error);
 
     await getExpenses(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(error);
+  });
+});
+
+describe("updateExpense controller", () => {
+  const createResponse = () => {
+    const res = {};
+    res.status = vi.fn(() => res);
+    res.json = vi.fn(() => res);
+    return res;
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("updates an expense and returns a 200 response", async () => {
+    const payload = {
+      title: "Updated lunch",
+      amount: 300,
+    };
+    const updatedExpense = {
+      _id: "expense-id",
+      title: "Updated lunch",
+      amount: 300,
+      category: "food",
+    };
+    const req = { params: { id: "expense-id" }, body: payload };
+    const res = createResponse();
+    const next = vi.fn();
+
+    expenseService.updateExpense.mockResolvedValue(updatedExpense);
+
+    await updateExpense(req, res, next);
+
+    expect(expenseService.updateExpense).toHaveBeenCalledWith(
+      "expense-id",
+      payload
+    );
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      success: true,
+      message: "Expense updated successfully",
+      data: updatedExpense,
+    });
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  it("passes update errors to the error middleware", async () => {
+    const error = new Error("Database failed");
+    const req = { params: { id: "expense-id" }, body: { title: "Lunch" } };
+    const res = createResponse();
+    const next = vi.fn();
+
+    expenseService.updateExpense.mockRejectedValue(error);
+
+    await updateExpense(req, res, next);
 
     expect(next).toHaveBeenCalledWith(error);
   });
