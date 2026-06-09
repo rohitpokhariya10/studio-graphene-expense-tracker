@@ -1,4 +1,4 @@
-import { formatCurrency } from "../../utils/formatters.js";
+import { formatCurrency, formatDate } from "../../utils/formatters.js";
 
 const SummaryCard = ({ label, value, helper }) => (
   <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60">
@@ -10,6 +10,7 @@ const SummaryCard = ({ label, value, helper }) => (
 
 const SummaryPanel = ({ summary }) => {
   const hasExpenses = summary.totalCount > 0;
+  const highestExpense = summary.highestExpense;
 
   return (
     <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
@@ -51,6 +52,27 @@ const SummaryPanel = ({ summary }) => {
           value={formatCurrency(summary.averageAmount)}
         />
       </div>
+
+      <article className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50/70 p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-sm font-medium text-emerald-800">
+              Highest expense
+            </p>
+            <h3 className="mt-2 text-xl font-semibold text-slate-950">
+              {highestExpense?.title ?? "No expense yet"}
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              {highestExpense
+                ? `${formatDate(highestExpense.date)} · ${highestExpense.category}`
+                : "Add expenses to identify your largest spend."}
+            </p>
+          </div>
+          <p className="text-2xl font-semibold text-slate-950">
+            {formatCurrency(highestExpense?.amount ?? 0)}
+          </p>
+        </div>
+      </article>
     </section>
   );
 };

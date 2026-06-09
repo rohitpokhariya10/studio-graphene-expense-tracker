@@ -22,11 +22,19 @@ export const getExpenseSummary = (expenses) => {
     (total, expense) => total + Number(expense.amount),
     0
   );
+  const highestExpense = expenses.reduce((highest, expense) => {
+    if (!highest || Number(expense.amount) > Number(highest.amount)) {
+      return expense;
+    }
+
+    return highest;
+  }, null);
   const monthlyTotal = getMonthlyTotal(expenses);
   const totalCount = expenses.length;
 
   return {
     averageAmount: totalCount > 0 ? totalAmount / totalCount : 0,
+    highestExpense,
     monthlyTotal,
     totalAmount,
     totalCount,
