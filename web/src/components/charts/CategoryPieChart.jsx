@@ -39,6 +39,11 @@ const CategoryTooltip = ({ active, payload }) => {
 
 const CategoryPieChart = ({ data }) => {
   const hasData = data.length > 0;
+  const totalAmount = data.reduce(
+    (total, category) => total + Number(category.amount),
+    0
+  );
+  const topCategory = data[0];
 
   return (
     <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
@@ -56,7 +61,23 @@ const CategoryPieChart = ({ data }) => {
 
       {hasData ? (
         <>
-          <div className="mt-5 h-64">
+          <div className="mt-5 rounded-lg border border-slate-100 bg-slate-50 p-4">
+            <div className="flex flex-col gap-1">
+              <p className="text-sm font-medium text-slate-500">
+                Top category
+              </p>
+              <div className="flex items-baseline justify-between gap-4">
+                <p className="text-lg font-semibold text-slate-950">
+                  {topCategory.label}
+                </p>
+                <p className="text-sm font-semibold text-slate-700">
+                  {formatCurrency(topCategory.amount)}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="relative mt-5 h-72">
             <ResponsiveContainer height="100%" width="100%">
               <PieChart>
                 <Pie
@@ -80,6 +101,14 @@ const CategoryPieChart = ({ data }) => {
                 <Tooltip content={<CategoryTooltip />} />
               </PieChart>
             </ResponsiveContainer>
+            <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                Total
+              </p>
+              <p className="mt-1 text-lg font-semibold text-slate-950">
+                {formatCurrency(totalAmount)}
+              </p>
+            </div>
           </div>
 
           <div className="mt-5 space-y-3">
@@ -101,7 +130,7 @@ const CategoryPieChart = ({ data }) => {
                   </p>
                 </div>
                 <p className="text-sm font-semibold text-slate-950">
-                  {formatCurrency(category.amount)}
+                  {Math.round((category.amount / totalAmount) * 100)}%
                 </p>
               </div>
             ))}
