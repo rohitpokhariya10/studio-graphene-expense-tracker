@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SummaryPanel from "./components/analytics/SummaryPanel.jsx";
+import BudgetTracker from "./components/bonus/BudgetTracker.jsx";
 import CategoryPieChart from "./components/charts/CategoryPieChart.jsx";
 import DeleteExpenseModal from "./components/expenses/DeleteExpenseModal.jsx";
 import ExpenseCategoryFilter from "./components/expenses/ExpenseCategoryFilter.jsx";
@@ -134,6 +135,7 @@ const App = () => {
 
           <aside className="space-y-4">
             <SummaryPanel summary={summary} />
+            <BudgetTracker monthlyTotal={summary.monthlyTotal} />
             <CategoryPieChart data={categoryBreakdown} />
           </aside>
         </div>
