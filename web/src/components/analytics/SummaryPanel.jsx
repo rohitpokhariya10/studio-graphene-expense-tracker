@@ -8,6 +8,36 @@ const SummaryCard = ({ label, value, helper }) => (
   </article>
 );
 
+const MonthlyTotalCard = ({ monthLabel, monthlyTotal }) => {
+  const visualBenchmark = 10000;
+  const progress = Math.min((monthlyTotal / visualBenchmark) * 100, 100);
+
+  return (
+    <article className="rounded-lg border border-slate-200 bg-slate-950 p-5 text-white shadow-sm shadow-slate-200/60">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium text-slate-300">Monthly total</p>
+          <p className="mt-2 text-2xl font-semibold">
+            {formatCurrency(monthlyTotal)}
+          </p>
+        </div>
+        <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
+          {monthLabel}
+        </span>
+      </div>
+      <div className="mt-5 h-2 rounded-full bg-white/15">
+        <div
+          className="h-2 rounded-full bg-emerald-400 transition-all"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+      <p className="mt-3 text-sm text-slate-300">
+        Visual progress against a Rs. 10,000 reference line.
+      </p>
+    </article>
+  );
+};
+
 const SummaryPanel = ({ summary }) => {
   const hasExpenses = summary.totalCount > 0;
   const highestExpense = summary.highestExpense;
@@ -32,10 +62,9 @@ const SummaryPanel = ({ summary }) => {
           label="Total spend"
           value={formatCurrency(summary.totalAmount)}
         />
-        <SummaryCard
-          helper="Current calendar month based on expense dates."
-          label="Monthly total"
-          value={formatCurrency(summary.monthlyTotal)}
+        <MonthlyTotalCard
+          monthLabel={summary.monthLabel}
+          monthlyTotal={summary.monthlyTotal}
         />
         <SummaryCard
           helper="Number of entries returned by the active filters."

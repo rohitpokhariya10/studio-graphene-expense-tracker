@@ -18,6 +18,7 @@ export const getMonthlyTotal = (expenses) => {
 };
 
 export const getExpenseSummary = (expenses) => {
+  const now = new Date();
   const totalAmount = expenses.reduce(
     (total, expense) => total + Number(expense.amount),
     0
@@ -35,6 +36,10 @@ export const getExpenseSummary = (expenses) => {
   return {
     averageAmount: totalCount > 0 ? totalAmount / totalCount : 0,
     highestExpense,
+    monthLabel: new Intl.DateTimeFormat("en-IN", {
+      month: "long",
+      year: "numeric",
+    }).format(now),
     monthlyTotal,
     totalAmount,
     totalCount,
