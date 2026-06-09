@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { formatCurrency } from "../../utils/formatters.js";
+import { getStoredValue, setStoredValue } from "../../utils/storage.js";
+
+const BUDGET_STORAGE_KEY = "expense-tracker-monthly-budget";
 
 const BudgetTracker = ({ monthlyTotal }) => {
-  const [budget, setBudget] = useState("10000");
+  const [budget, setBudget] = useState(() =>
+    getStoredValue(BUDGET_STORAGE_KEY, "10000")
+  );
   const numericBudget = Number(budget);
   const hasBudget = Number.isFinite(numericBudget) && numericBudget > 0;
   const progress = hasBudget
@@ -10,6 +15,10 @@ const BudgetTracker = ({ monthlyTotal }) => {
     : 0;
   const remainingBudget = hasBudget ? numericBudget - monthlyTotal : 0;
   const isOverBudget = hasBudget && remainingBudget < 0;
+  const handleBudgetChange = (value) => {
+    setBudget(value);
+    setStoredValue(BUDGET_STORAGE_KEY, value);
+  };
 
   return (
     <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
@@ -33,7 +42,7 @@ const BudgetTracker = ({ monthlyTotal }) => {
           className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-950 shadow-sm shadow-slate-200/40 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
           id="budget"
           min="0"
-          onChange={(event) => setBudget(event.target.value)}
+          onChange={(event) => handleBudgetChange(event.target.value)}
           step="100"
           type="number"
           value={budget}

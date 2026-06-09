@@ -16,10 +16,13 @@ import {
 } from "./utils/analytics.js";
 
 const App = () => {
-  const [filters, setFilters] = useState({
+  const defaultFilters = {
     category: "",
     endDate: "",
     startDate: "",
+  };
+  const [filters, setFilters] = useState({
+    ...defaultFilters,
   });
   const { error, expenses, isLoading, refreshExpenses } = useExpenses({
     category: filters.category,
@@ -31,6 +34,9 @@ const App = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
   const categoryBreakdown = getCategoryBreakdown(expenses, EXPENSE_CATEGORIES);
+  const hasActiveFilters = Boolean(
+    filters.category || filters.endDate || filters.startDate
+  );
   const summary = getExpenseSummary(expenses);
 
   const handleExpenseSaved = async () => {
@@ -123,7 +129,9 @@ const App = () => {
               editingExpenseId={editingExpense?._id}
               error={error}
               expenses={expenses}
+              hasActiveFilters={hasActiveFilters}
               isLoading={isLoading}
+              onClearFilters={() => setFilters(defaultFilters)}
               onDeleteExpense={(expense) => {
                 setDeleteError(null);
                 setDeletingExpense(expense);

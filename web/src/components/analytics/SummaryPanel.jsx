@@ -1,10 +1,12 @@
 import { formatCurrency, formatDate } from "../../utils/formatters.js";
 
 const SummaryCard = ({ label, value, helper }) => (
-  <article className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60">
+  <article className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm shadow-slate-200/60">
     <p className="text-sm font-medium text-slate-500">{label}</p>
-    <p className="mt-2 text-2xl font-semibold text-slate-950">{value}</p>
-    <p className="mt-3 text-sm text-slate-500">{helper}</p>
+    <p className="mt-2 text-2xl font-semibold leading-none text-slate-950">
+      {value}
+    </p>
+    <p className="mt-3 text-sm leading-5 text-slate-500">{helper}</p>
   </article>
 );
 
@@ -13,17 +15,17 @@ const MonthlyTotalCard = ({ monthLabel, monthlyTotal }) => {
   const progress = Math.min((monthlyTotal / visualBenchmark) * 100, 100);
 
   return (
-    <article className="rounded-lg border border-slate-200 bg-slate-950 p-5 text-white shadow-sm shadow-slate-200/60">
-      <div className="flex items-start justify-between gap-4">
-        <div>
+    <article className="overflow-hidden rounded-lg border border-slate-200 bg-slate-950 p-4 text-white shadow-sm shadow-slate-200/60">
+      <div className="flex flex-col gap-3">
+        <div className="flex items-start justify-between gap-3">
           <p className="text-sm font-medium text-slate-300">Monthly total</p>
-          <p className="mt-2 text-2xl font-semibold">
-            {formatCurrency(monthlyTotal)}
-          </p>
+          <span className="shrink-0 whitespace-nowrap rounded-full bg-white/10 px-2.5 py-1 text-xs font-semibold text-slate-200">
+            {monthLabel}
+          </span>
         </div>
-        <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-slate-200">
-          {monthLabel}
-        </span>
+        <p className="text-2xl font-semibold leading-none">
+          {formatCurrency(monthlyTotal)}
+        </p>
       </div>
       <div className="mt-5 h-2 rounded-full bg-white/15">
         <div
@@ -31,16 +33,36 @@ const MonthlyTotalCard = ({ monthLabel, monthlyTotal }) => {
           style={{ width: `${progress}%` }}
         />
       </div>
-      <p className="mt-3 text-sm text-slate-300">
+      <p className="mt-3 text-sm leading-5 text-slate-300">
         Visual progress against a Rs. 10,000 reference line.
       </p>
     </article>
   );
 };
 
+const HighestExpenseCard = ({ expense }) => (
+  <article className="rounded-lg border border-emerald-200 bg-emerald-50/70 p-4">
+    <div className="flex items-start justify-between gap-4">
+      <div className="min-w-0">
+        <p className="text-sm font-medium text-emerald-800">Highest expense</p>
+        <h3 className="mt-2 truncate text-lg font-semibold text-slate-950">
+          {expense?.title ?? "No expense yet"}
+        </h3>
+        <p className="mt-2 text-sm leading-5 text-slate-600">
+          {expense
+            ? `${formatDate(expense.date)} · ${expense.category}`
+            : "Add expenses to identify your largest spend."}
+        </p>
+      </div>
+      <p className="shrink-0 text-xl font-semibold leading-none text-slate-950">
+        {formatCurrency(expense?.amount ?? 0)}
+      </p>
+    </div>
+  </article>
+);
+
 const SummaryPanel = ({ summary }) => {
   const hasExpenses = summary.totalCount > 0;
-  const highestExpense = summary.highestExpense;
 
   return (
     <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
@@ -56,7 +78,7 @@ const SummaryPanel = ({ summary }) => {
         </p>
       </div>
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+      <div className="mt-5 grid gap-3">
         <SummaryCard
           helper="Total value across the visible expense list."
           label="Total spend"
@@ -66,42 +88,27 @@ const SummaryPanel = ({ summary }) => {
           monthLabel={summary.monthLabel}
           monthlyTotal={summary.monthlyTotal}
         />
-        <SummaryCard
-          helper="Number of entries returned by the active filters."
-          label="Entries"
-          value={summary.totalCount.toString()}
-        />
-        <SummaryCard
-          helper={
-            hasExpenses
-              ? "Average spend per visible expense."
-              : "Add expenses to calculate an average."
-          }
-          label="Average expense"
-          value={formatCurrency(summary.averageAmount)}
-        />
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          <SummaryCard
+            helper="Entries returned by active filters."
+            label="Entries"
+            value={summary.totalCount.toString()}
+          />
+          <SummaryCard
+            helper={
+              hasExpenses
+                ? "Average spend per visible expense."
+                : "Add expenses to calculate an average."
+            }
+            label="Average expense"
+            value={formatCurrency(summary.averageAmount)}
+          />
+        </div>
       </div>
 
-      <article className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50/70 p-5">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <p className="text-sm font-medium text-emerald-800">
-              Highest expense
-            </p>
-            <h3 className="mt-2 text-xl font-semibold text-slate-950">
-              {highestExpense?.title ?? "No expense yet"}
-            </h3>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              {highestExpense
-                ? `${formatDate(highestExpense.date)} · ${highestExpense.category}`
-                : "Add expenses to identify your largest spend."}
-            </p>
-          </div>
-          <p className="text-2xl font-semibold text-slate-950">
-            {formatCurrency(highestExpense?.amount ?? 0)}
-          </p>
-        </div>
-      </article>
+      <div className="mt-3">
+        <HighestExpenseCard expense={summary.highestExpense} />
+      </div>
     </section>
   );
 };

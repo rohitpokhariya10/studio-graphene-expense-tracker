@@ -17,18 +17,28 @@ const ExpenseTableSkeleton = () => (
   </div>
 );
 
-const ExpenseEmptyState = () => (
+const ExpenseEmptyState = ({ hasActiveFilters, onClearFilters }) => (
   <div className="flex min-h-64 flex-col items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 px-6 text-center">
     <div className="flex size-12 items-center justify-center rounded-full bg-white text-lg font-semibold text-emerald-700 shadow-sm">
       +
     </div>
     <p className="mt-4 text-sm font-semibold text-slate-950">
-      No expenses recorded yet
+      {hasActiveFilters ? "No expenses match these filters" : "No expenses recorded yet"}
     </p>
     <p className="mt-2 max-w-sm text-sm leading-6 text-slate-500">
-      Add your first expense and it will appear here with amount, category, and
-      date details.
+      {hasActiveFilters
+        ? "Clear filters to see all saved expenses, or adjust the date range to include the expense date."
+        : "Add your first expense and it will appear here with amount, category, and date details."}
     </p>
+    {hasActiveFilters ? (
+      <button
+        className="mt-5 rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+        onClick={onClearFilters}
+        type="button"
+      >
+        Clear filters
+      </button>
+    ) : null}
   </div>
 );
 
@@ -50,7 +60,9 @@ const ExpenseTable = ({
   editingExpenseId,
   error,
   expenses,
+  hasActiveFilters,
   isLoading,
+  onClearFilters,
   onDeleteExpense,
   onEditExpense,
   onRetry,
@@ -77,7 +89,10 @@ const ExpenseTable = ({
           <ExpenseErrorState message={error} onRetry={onRetry} />
         ) : null}
         {!isLoading && !error && expenses.length === 0 ? (
-          <ExpenseEmptyState />
+          <ExpenseEmptyState
+            hasActiveFilters={hasActiveFilters}
+            onClearFilters={onClearFilters}
+          />
         ) : null}
         {!isLoading && !error && expenses.length > 0 ? (
           <div className="overflow-hidden rounded-lg border border-slate-200">
