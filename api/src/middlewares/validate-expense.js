@@ -8,6 +8,7 @@ const validateExpensePayload = (payload, { requireAllFields }) => {
   const errors = {};
   const normalizedPayload = {};
 
+  // One validator supports both create and update so payload normalization stays consistent.
   if (requireAllFields && !hasValue(title)) {
     errors.title = "Title is required";
   } else if (hasValue(title) && typeof title !== "string") {

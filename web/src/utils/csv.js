@@ -1,6 +1,7 @@
 const escapeCsvValue = (value) => {
   const stringValue = String(value ?? "");
 
+  // RFC-style escaping keeps commas, quotes, and multiline notes importable in spreadsheets.
   if (
     stringValue.includes(",") ||
     stringValue.includes("\"") ||

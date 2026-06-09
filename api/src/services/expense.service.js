@@ -37,6 +37,7 @@ export const getExpenses = async ({ category, endDate, startDate } = {}) => {
 
     if (endDate) {
       const parsedEndDate = getDateFromFilter(endDate, "endDate");
+      // Include the full selected end date instead of stopping at midnight.
       parsedEndDate.setUTCHours(23, 59, 59, 999);
       query.date.$lte = parsedEndDate;
     }

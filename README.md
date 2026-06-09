@@ -166,3 +166,10 @@ feature/documentation-deployment
 ```
 
 Each feature was implemented in small commits using Conventional Commits.
+
+## Code Quality Notes
+
+- Comments are intentionally targeted and explain business rules or edge cases, not obvious line-by-line behavior.
+- Backend code follows MVC separation with a service layer for database rules and middleware for request validation.
+- Frontend code keeps data fetching in hooks, API calls in services, and reusable calculations in utilities.
+- UI states cover loading, empty, filtered-empty, error, and mobile layouts to keep the dashboard production-ready.

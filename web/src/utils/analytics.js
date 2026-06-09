@@ -19,6 +19,7 @@ export const getMonthlyTotal = (expenses) => {
 
 export const getExpenseSummary = (expenses) => {
   const now = new Date();
+  // Summary is based on the currently visible list, so filters update analytics instantly.
   const totalAmount = expenses.reduce(
     (total, expense) => total + Number(expense.amount),
     0
