@@ -13,3 +13,18 @@ export const createExpense = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getExpenses = async (_req, res, next) => {
+  try {
+    const expenses = await expenseService.getExpenses();
+
+    res.status(200).json({
+      success: true,
+      message: "Expenses fetched successfully",
+      count: expenses.length,
+      data: expenses,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
