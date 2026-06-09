@@ -133,6 +133,194 @@ GET /api/v1/expenses?category=food
 GET /api/v1/expenses?startDate=2026-06-01&endDate=2026-06-30
 ```
 
+### Health Check
+
+```txt
+GET /api/v1/health
+```
+
+Request body: not required.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "message": "Expense Tracker API is healthy",
+  "timestamp": "2026-06-10T10:30:00.000Z"
+}
+```
+
+### Get Expenses
+
+```txt
+GET /api/v1/expenses
+```
+
+Optional query params:
+
+```txt
+category=food
+startDate=2026-06-01
+endDate=2026-06-30
+```
+
+Success response:
+
+```json
+{
+  "success": true,
+  "message": "Expenses fetched successfully",
+  "count": 1,
+  "data": [
+    {
+      "_id": "665f1f77bc8a6e84fd650111",
+      "title": "Lunch",
+      "amount": 250,
+      "category": "food",
+      "date": "2026-06-10T00:00:00.000Z",
+      "note": "Team lunch",
+      "createdAt": "2026-06-10T10:30:00.000Z",
+      "updatedAt": "2026-06-10T10:30:00.000Z"
+    }
+  ]
+}
+```
+
+### Create Expense
+
+```txt
+POST /api/v1/expenses
+```
+
+Request body:
+
+```json
+{
+  "title": "Lunch",
+  "amount": 250,
+  "category": "food",
+  "date": "2026-06-10",
+  "note": "Team lunch"
+}
+```
+
+Success response:
+
+```json
+{
+  "success": true,
+  "message": "Expense created successfully",
+  "data": {
+    "_id": "665f1f77bc8a6e84fd650111",
+    "title": "Lunch",
+    "amount": 250,
+    "category": "food",
+    "date": "2026-06-10T00:00:00.000Z",
+    "note": "Team lunch",
+    "createdAt": "2026-06-10T10:30:00.000Z",
+    "updatedAt": "2026-06-10T10:30:00.000Z"
+  }
+}
+```
+
+Validation error response:
+
+```json
+{
+  "success": false,
+  "message": "Expense validation failed",
+  "details": {
+    "title": "Title is required",
+    "amount": "Amount must be greater than 0",
+    "category": "Category is invalid"
+  }
+}
+```
+
+### Update Expense
+
+```txt
+PUT /api/v1/expenses/:id
+```
+
+Request body supports partial updates:
+
+```json
+{
+  "amount": 300,
+  "note": "Updated amount"
+}
+```
+
+Success response:
+
+```json
+{
+  "success": true,
+  "message": "Expense updated successfully",
+  "data": {
+    "_id": "665f1f77bc8a6e84fd650111",
+    "title": "Lunch",
+    "amount": 300,
+    "category": "food",
+    "date": "2026-06-10T00:00:00.000Z",
+    "note": "Updated amount",
+    "createdAt": "2026-06-10T10:30:00.000Z",
+    "updatedAt": "2026-06-10T10:45:00.000Z"
+  }
+}
+```
+
+Error responses:
+
+```json
+{
+  "success": false,
+  "message": "Expense id is invalid"
+}
+```
+
+```json
+{
+  "success": false,
+  "message": "Expense not found"
+}
+```
+
+### Delete Expense
+
+```txt
+DELETE /api/v1/expenses/:id
+```
+
+Request body: not required.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "message": "Expense deleted successfully"
+}
+```
+
+Error responses:
+
+```json
+{
+  "success": false,
+  "message": "Expense id is invalid"
+}
+```
+
+```json
+{
+  "success": false,
+  "message": "Expense not found"
+}
+```
+
 ## Testing
 
 Backend tests:
