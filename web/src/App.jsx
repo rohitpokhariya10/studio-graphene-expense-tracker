@@ -73,36 +73,67 @@ const App = () => {
   };
 
   return (
-    <main className="min-h-screen bg-[#f7f9fc] text-slate-950">
+    <main className="min-h-screen text-slate-950">
       <section className="mx-auto flex w-full max-w-[1440px] flex-col gap-7 px-4 py-6 sm:gap-8 sm:px-6 sm:py-8 lg:px-8">
-        <header className="flex flex-col gap-5 border-b border-slate-200 pb-7 sm:flex-row sm:items-center sm:justify-between">
+        <header className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-dashboard-card">
+          <div className="border-b border-slate-200 bg-slate-950 px-5 py-4 text-white sm:px-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <span className="size-2.5 rounded-full bg-emerald-400 shadow-[0_0_0_5px_rgba(16,185,129,0.16)]" />
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
+                  Live finance workspace
+                </p>
+              </div>
+              <p className="text-sm font-medium text-slate-300">
+                {summary.monthLabel} · {summary.totalCount}{" "}
+                {summary.totalCount === 1 ? "entry" : "entries"}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-6 px-5 py-6 sm:px-6 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
               Workspace
             </p>
-            <h1 className="mt-2 text-3xl font-semibold leading-tight text-slate-950 sm:text-4xl">
+            <h1 className="mt-2 text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl">
               Expense tracker
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
               Record spending with clear categorization and reliable validation.
             </p>
           </div>
-          <div className="flex w-full items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-sm shadow-slate-200/70 sm:w-auto">
-            <span className="size-2.5 rounded-full bg-emerald-500 shadow-[0_0_0_4px_rgba(16,185,129,0.12)]" />
-            <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-                Status
-              </p>
-              <p className="text-sm font-semibold text-slate-900">
-                Ready to capture
-              </p>
+            <div className="grid w-full gap-3 sm:grid-cols-3 lg:w-auto lg:min-w-[440px]">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  Status
+                </p>
+                <p className="mt-1 text-sm font-semibold text-slate-950">
+                  Ready to capture
+                </p>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  Visible spend
+                </p>
+                <p className="mt-1 text-sm font-semibold text-slate-950">
+                  {summary.totalCount} records
+                </p>
+              </div>
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
+                  Insights
+                </p>
+                <p className="mt-1 text-sm font-semibold text-emerald-950">
+                  Active
+                </p>
+              </div>
             </div>
           </div>
         </header>
 
         <div className="grid items-start gap-7 xl:grid-cols-[minmax(0,1fr)_420px]">
           <div className="space-y-7">
-            <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/70 sm:p-6">
+            <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-dashboard-card sm:p-6">
               <ExpenseForm
                 editingExpense={editingExpense}
                 onCancelEdit={() => setEditingExpense(null)}

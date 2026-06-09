@@ -47,7 +47,7 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
   const topCategory = data[0];
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
+    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-dashboard-card sm:p-6">
       <div>
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
           Visualization
@@ -62,7 +62,7 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
 
       {hasData ? (
         <>
-          <div className="mt-5 rounded-lg border border-slate-100 bg-slate-50 p-4">
+          <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4">
             <div className="flex flex-col gap-1">
               <p className="text-sm font-medium text-slate-500">
                 Top category

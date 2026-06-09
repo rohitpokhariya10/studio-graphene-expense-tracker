@@ -1,7 +1,7 @@
 import { formatCurrency, formatDate } from "../../utils/formatters.js";
 
 const SummaryCard = ({ label, value, helper }) => (
-  <article className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm shadow-slate-200/60">
+  <article className="rounded-xl border border-slate-200 bg-white p-4 shadow-dashboard-soft">
     <p className="text-sm font-medium text-slate-500">{label}</p>
     <p className="mt-2 text-[1.7rem] font-semibold leading-none text-slate-950">
       {value}
@@ -15,7 +15,7 @@ const MonthlyTotalCard = ({ monthLabel, monthlyTotal }) => {
   const progress = Math.min((monthlyTotal / visualBenchmark) * 100, 100);
 
   return (
-    <article className="overflow-hidden rounded-lg border border-slate-900 bg-slate-950 p-4 text-white shadow-sm shadow-slate-200/60">
+    <article className="overflow-hidden rounded-xl border border-slate-900 bg-slate-950 p-4 text-white shadow-dashboard-soft">
       <div className="flex flex-col gap-3">
         <div className="flex items-start justify-between gap-3">
           <p className="text-sm font-medium text-slate-300">Monthly total</p>
@@ -41,7 +41,7 @@ const MonthlyTotalCard = ({ monthLabel, monthlyTotal }) => {
 };
 
 const HighestExpenseCard = ({ expense }) => (
-  <article className="rounded-lg border border-emerald-200 bg-emerald-50/80 p-4">
+    <article className="rounded-xl border border-emerald-200 bg-emerald-50/80 p-4 shadow-dashboard-soft">
     <div className="flex items-start justify-between gap-4">
       <div className="min-w-0">
         <p className="text-sm font-medium text-emerald-800">Highest expense</p>
@@ -65,7 +65,7 @@ const SummaryPanel = ({ summary }) => {
   const hasExpenses = summary.totalCount > 0;
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/70 sm:p-6">
+    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-dashboard-card sm:p-6">
       <div className="flex flex-col gap-2">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
           Analytics

@@ -21,7 +21,7 @@ const BudgetTracker = ({ monthlyTotal }) => {
   };
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
+    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-dashboard-card sm:p-6">
       <div className="flex flex-col gap-2">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
           Bonus
@@ -39,7 +39,7 @@ const BudgetTracker = ({ monthlyTotal }) => {
           Monthly budget
         </label>
         <input
-          className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-950 shadow-sm shadow-slate-200/40 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+          className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-950 shadow-sm shadow-slate-200/40 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
           id="budget"
           min="0"
           onChange={(event) => handleBudgetChange(event.target.value)}
@@ -49,7 +49,7 @@ const BudgetTracker = ({ monthlyTotal }) => {
         />
       </div>
 
-      <div className="mt-5 rounded-lg bg-slate-50 p-4">
+      <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4">
         <div className="flex items-center justify-between gap-4">
           <p className="text-sm font-medium text-slate-500">Remaining</p>
           <p

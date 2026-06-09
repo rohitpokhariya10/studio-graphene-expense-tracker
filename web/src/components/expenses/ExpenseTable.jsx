@@ -11,7 +11,7 @@ const ExpenseTableSkeleton = () => (
   <div className="space-y-3">
     {[1, 2, 3, 4].map((item) => (
       <div
-        className="h-16 animate-pulse rounded-md border border-slate-100 bg-slate-50"
+        className="h-16 animate-pulse rounded-xl border border-slate-100 bg-slate-50"
         key={item}
       />
     ))}
@@ -23,7 +23,7 @@ const ExpenseEmptyState = ({ hasActiveFilters, onClearFilters }) => (
     action={
       hasActiveFilters ? (
         <button
-          className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+          className="rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
           onClick={onClearFilters}
           type="button"
         >
@@ -46,11 +46,11 @@ const ExpenseEmptyState = ({ hasActiveFilters, onClearFilters }) => (
 );
 
 const ExpenseErrorState = ({ message, onRetry }) => (
-  <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+  <div className="rounded-xl border border-red-200 bg-red-50 p-4">
     <p className="text-sm font-semibold text-red-800">Unable to load expenses</p>
     <p className="mt-2 text-sm leading-6 text-red-700">{message}</p>
     <button
-      className="mt-4 rounded-md bg-red-700 px-3 py-2 text-sm font-semibold text-white transition hover:bg-red-800"
+      className="mt-4 rounded-xl bg-red-700 px-3 py-2 text-sm font-semibold text-white transition hover:bg-red-800"
       onClick={onRetry}
       type="button"
     >
@@ -71,7 +71,7 @@ const ExpenseTable = ({
   onRetry,
 }) => {
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
+    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-dashboard-card sm:p-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-2xl font-semibold text-slate-950">
@@ -81,7 +81,7 @@ const ExpenseTable = ({
             Review the latest saved entries from your workspace.
           </p>
         </div>
-        <span className="w-fit rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+        <span className="w-fit rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
           {expenses.length} {expenses.length === 1 ? "entry" : "entries"}
         </span>
       </div>
@@ -98,7 +98,7 @@ const ExpenseTable = ({
           />
         ) : null}
         {!isLoading && !error && expenses.length > 0 ? (
-          <div className="overflow-hidden rounded-lg border border-slate-200">
+          <div className="overflow-hidden rounded-2xl border border-slate-200">
             <div className="hidden bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 lg:grid lg:grid-cols-[1fr_120px_120px_110px_150px]">
               <span>Expense</span>
               <span>Category</span>
@@ -109,8 +109,8 @@ const ExpenseTable = ({
             <div className="divide-y divide-slate-100">
               {expenses.map((expense) => (
                 <article
-                  className={`grid gap-4 px-4 py-4 lg:grid-cols-[1fr_120px_120px_110px_150px] lg:items-center ${
-                    editingExpenseId === expense._id ? "bg-emerald-50/60" : ""
+                  className={`grid gap-4 px-4 py-4 transition hover:bg-slate-50/80 lg:grid-cols-[1fr_120px_120px_110px_150px] lg:items-center ${
+                    editingExpenseId === expense._id ? "bg-emerald-50/70" : ""
                   }`}
                   key={expense._id}
                 >
@@ -129,7 +129,7 @@ const ExpenseTable = ({
                       <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400 lg:hidden">
                         Category
                       </p>
-                      <span className="w-fit rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+                      <span className="w-fit rounded-full border border-emerald-100 bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
                         {categoryLabels[expense.category] ?? expense.category}
                       </span>
                     </div>
@@ -152,14 +152,14 @@ const ExpenseTable = ({
                   </div>
                   <div className="flex flex-col gap-2 sm:flex-row lg:justify-end">
                     <button
-                      className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                      className="rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
                       onClick={() => onEditExpense(expense)}
                       type="button"
                     >
                       {editingExpenseId === expense._id ? "Editing" : "Edit"}
                     </button>
                     <button
-                      className="rounded-md border border-red-200 bg-white px-3 py-2 text-sm font-semibold text-red-700 shadow-sm transition hover:bg-red-50"
+                      className="rounded-xl border border-red-200 bg-white px-3 py-2 text-sm font-semibold text-red-700 shadow-sm transition hover:bg-red-50"
                       onClick={() => onDeleteExpense(expense)}
                       type="button"
                     >

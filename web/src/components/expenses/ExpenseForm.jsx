@@ -41,7 +41,7 @@ const validateForm = (values) => {
 };
 
 const inputClasses =
-  "mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-950 shadow-sm shadow-slate-200/40 outline-none transition placeholder:text-slate-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100";
+  "mt-2 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-950 shadow-sm shadow-slate-200/40 outline-none transition placeholder:text-slate-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100";
 
 const labelClasses = "text-sm font-medium text-slate-700";
 
@@ -144,7 +144,7 @@ const ExpenseForm = ({ editingExpense, onCancelEdit, onExpenseSaved }) => {
   return (
     <form className="space-y-5" onSubmit={handleSubmit}>
       <div>
-        <h2 className="text-2xl font-semibold text-slate-950">
+        <h2 className="text-2xl font-semibold tracking-tight text-slate-950">
           {isEditing ? "Edit expense" : "Add expense"}
         </h2>
         <p className="mt-2 text-sm leading-6 text-slate-500">
@@ -156,7 +156,7 @@ const ExpenseForm = ({ editingExpense, onCancelEdit, onExpenseSaved }) => {
 
       {submitState ? (
         <div
-          className={`rounded-md border px-4 py-3 text-sm font-medium ${
+          className={`rounded-xl border px-4 py-3 text-sm font-medium ${
             submitState.type === "success"
               ? "border-emerald-200 bg-emerald-50 text-emerald-800"
               : "border-red-200 bg-red-50 text-red-700"
@@ -261,7 +261,7 @@ const ExpenseForm = ({ editingExpense, onCancelEdit, onExpenseSaved }) => {
 
       <div className="flex flex-col gap-3 sm:flex-row">
         <button
-          className="inline-flex w-full items-center justify-center rounded-md bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300 sm:w-auto"
+          className="inline-flex w-full items-center justify-center rounded-xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-dashboard-soft transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300 sm:w-auto"
           disabled={isSubmitting}
           type="submit"
         >
@@ -275,7 +275,7 @@ const ExpenseForm = ({ editingExpense, onCancelEdit, onExpenseSaved }) => {
         </button>
         {isEditing ? (
           <button
-            className="inline-flex w-full items-center justify-center rounded-md border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:w-auto"
+            className="inline-flex w-full items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:w-auto"
             onClick={onCancelEdit}
             type="button"
           >
