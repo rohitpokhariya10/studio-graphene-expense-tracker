@@ -1,7 +1,9 @@
 import { useState } from "react";
+import DeleteExpenseModal from "./components/expenses/DeleteExpenseModal.jsx";
 import ExpenseForm from "./components/expenses/ExpenseForm.jsx";
 import ExpenseTable from "./components/expenses/ExpenseTable.jsx";
 import { useExpenses } from "./hooks/useExpenses.js";
+import { deleteExpense } from "./services/expenseApi.js";
 import { formatCurrency } from "./utils/formatters.js";
 
 const getMonthlyTotal = (expenses) => {
@@ -25,12 +27,42 @@ const getMonthlyTotal = (expenses) => {
 
 const App = () => {
   const { error, expenses, isLoading, refreshExpenses } = useExpenses();
+  const [deleteError, setDeleteError] = useState(null);
+  const [deletingExpense, setDeletingExpense] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
   const monthlyTotal = getMonthlyTotal(expenses);
 
   const handleExpenseSaved = async () => {
     await refreshExpenses();
     setEditingExpense(null);
+  };
+
+  const handleDeleteExpense = async () => {
+    if (!deletingExpense) {
+      return;
+    }
+
+    setIsDeleting(true);
+    setDeleteError(null);
+
+    try {
+      await deleteExpense(deletingExpense._id);
+      await refreshExpenses();
+
+      if (editingExpense?._id === deletingExpense._id) {
+        setEditingExpense(null);
+      }
+
+      setDeletingExpense(null);
+    } catch (requestError) {
+      setDeleteError(
+        requestError.response?.data?.message ??
+          "Unable to delete expense. Please try again."
+      );
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -76,6 +108,10 @@ const App = () => {
               error={error}
               expenses={expenses}
               isLoading={isLoading}
+              onDeleteExpense={(expense) => {
+                setDeleteError(null);
+                setDeletingExpense(expense);
+              }}
               onEditExpense={setEditingExpense}
               onRetry={refreshExpenses}
             />
@@ -131,6 +167,24 @@ const App = () => {
           </aside>
         </div>
       </section>
+
+      {deleteError ? (
+        <div className="fixed bottom-4 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700 shadow-lg">
+          {deleteError}
+        </div>
+      ) : null}
+
+      <DeleteExpenseModal
+        expense={deletingExpense}
+        isDeleting={isDeleting}
+        onCancel={() => {
+          if (!isDeleting) {
+            setDeleteError(null);
+            setDeletingExpense(null);
+          }
+        }}
+        onConfirm={handleDeleteExpense}
+      />
     </main>
   );
 };

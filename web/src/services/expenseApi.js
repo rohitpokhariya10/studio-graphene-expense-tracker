@@ -19,3 +19,8 @@ export const updateExpense = async (expenseId, payload) => {
   const { data } = await apiClient.put(`/expenses/${expenseId}`, payload);
   return data;
 };
+
+export const deleteExpense = async (expenseId) => {
+  const { data } = await apiClient.delete(`/expenses/${expenseId}`);
+  return data;
+};

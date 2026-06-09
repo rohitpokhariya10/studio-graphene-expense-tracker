@@ -51,6 +51,7 @@ const ExpenseTable = ({
   error,
   expenses,
   isLoading,
+  onDeleteExpense,
   onEditExpense,
   onRetry,
 }) => {
@@ -80,7 +81,7 @@ const ExpenseTable = ({
         ) : null}
         {!isLoading && !error && expenses.length > 0 ? (
           <div className="overflow-hidden rounded-lg border border-slate-200">
-            <div className="hidden bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:grid sm:grid-cols-[1fr_130px_130px_120px_90px]">
+            <div className="hidden bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:grid sm:grid-cols-[1fr_120px_120px_110px_150px]">
               <span>Expense</span>
               <span>Category</span>
               <span>Date</span>
@@ -90,7 +91,7 @@ const ExpenseTable = ({
             <div className="divide-y divide-slate-100">
               {expenses.map((expense) => (
                 <article
-                  className={`grid gap-3 px-4 py-4 sm:grid-cols-[1fr_130px_130px_120px_90px] sm:items-center ${
+                  className={`grid gap-3 px-4 py-4 sm:grid-cols-[1fr_120px_120px_110px_150px] sm:items-center ${
                     editingExpenseId === expense._id ? "bg-emerald-50/60" : ""
                   }`}
                   key={expense._id}
@@ -114,13 +115,22 @@ const ExpenseTable = ({
                   <p className="text-left text-sm font-semibold text-slate-950 sm:text-right">
                     {formatCurrency(expense.amount)}
                   </p>
-                  <button
-                    className="w-fit rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:ml-auto"
-                    onClick={() => onEditExpense(expense)}
-                    type="button"
-                  >
-                    {editingExpenseId === expense._id ? "Editing" : "Edit"}
-                  </button>
+                  <div className="flex flex-wrap gap-2 sm:justify-end">
+                    <button
+                      className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                      onClick={() => onEditExpense(expense)}
+                      type="button"
+                    >
+                      {editingExpenseId === expense._id ? "Editing" : "Edit"}
+                    </button>
+                    <button
+                      className="rounded-md border border-red-200 bg-white px-3 py-2 text-sm font-semibold text-red-700 shadow-sm transition hover:bg-red-50"
+                      onClick={() => onDeleteExpense(expense)}
+                      type="button"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </article>
               ))}
             </div>
