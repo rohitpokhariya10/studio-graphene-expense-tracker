@@ -1,30 +1,12 @@
 import { useState } from "react";
+import SummaryPanel from "./components/analytics/SummaryPanel.jsx";
 import DeleteExpenseModal from "./components/expenses/DeleteExpenseModal.jsx";
 import ExpenseCategoryFilter from "./components/expenses/ExpenseCategoryFilter.jsx";
 import ExpenseForm from "./components/expenses/ExpenseForm.jsx";
 import ExpenseTable from "./components/expenses/ExpenseTable.jsx";
 import { useExpenses } from "./hooks/useExpenses.js";
 import { deleteExpense } from "./services/expenseApi.js";
-import { formatCurrency } from "./utils/formatters.js";
-
-const getMonthlyTotal = (expenses) => {
-  const now = new Date();
-  const currentMonth = now.getMonth();
-  const currentYear = now.getFullYear();
-
-  return expenses.reduce((total, expense) => {
-    const expenseDate = new Date(expense.date);
-
-    if (
-      expenseDate.getMonth() !== currentMonth ||
-      expenseDate.getFullYear() !== currentYear
-    ) {
-      return total;
-    }
-
-    return total + Number(expense.amount);
-  }, 0);
-};
+import { getExpenseSummary } from "./utils/analytics.js";
 
 const App = () => {
   const [filters, setFilters] = useState({
@@ -41,7 +23,7 @@ const App = () => {
   const [deletingExpense, setDeletingExpense] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
-  const monthlyTotal = getMonthlyTotal(expenses);
+  const summary = getExpenseSummary(expenses);
 
   const handleExpenseSaved = async () => {
     await refreshExpenses();
@@ -140,29 +122,7 @@ const App = () => {
           </div>
 
           <aside className="space-y-4">
-            <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-sm font-medium text-slate-500">
-                    Monthly total
-                  </p>
-                  <p className="mt-2 text-3xl font-semibold text-slate-950">
-                    {formatCurrency(monthlyTotal)}
-                  </p>
-                </div>
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-                  Live
-                </span>
-              </div>
-              <div className="mt-5 h-2 rounded-full bg-slate-100">
-                <div
-                  className="h-2 rounded-full bg-emerald-600 transition-all"
-                  style={{
-                    width: `${Math.min((monthlyTotal / 10000) * 100, 100)}%`,
-                  }}
-                />
-              </div>
-            </section>
+            <SummaryPanel summary={summary} />
 
             <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
               <h2 className="text-lg font-semibold text-slate-950">
