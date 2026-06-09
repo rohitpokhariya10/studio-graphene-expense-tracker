@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { env } from "./config/env.js";
+import expenseRoutes from "./routes/expense.routes.js";
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.get("/api/v1/health", (req, res) => {
 });
 
 // Routes
-// app.use("/api/v1/expenses", expenseRoutes);
+app.use("/api/v1/expenses", expenseRoutes);
 
 // 404 Handler
 app.use((req, res) => {
@@ -45,6 +46,7 @@ app.use((error, req, res, _next) => {
       env.NODE_ENV === "production"
         ? "Internal server error"
         : error.message || "Internal server error",
+    ...(error.details ? { details: error.details } : {}),
   });
 });
 
