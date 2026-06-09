@@ -1,3 +1,4 @@
+import EmptyState from "../common/EmptyState.jsx";
 import { EXPENSE_CATEGORIES } from "../../constants/expenseCategories.js";
 import { formatCurrency, formatDate } from "../../utils/formatters.js";
 
@@ -18,28 +19,30 @@ const ExpenseTableSkeleton = () => (
 );
 
 const ExpenseEmptyState = ({ hasActiveFilters, onClearFilters }) => (
-  <div className="flex min-h-64 flex-col items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 px-6 text-center">
-    <div className="flex size-12 items-center justify-center rounded-full bg-white text-lg font-semibold text-emerald-700 shadow-sm">
-      +
-    </div>
-    <p className="mt-4 text-sm font-semibold text-slate-950">
-      {hasActiveFilters ? "No expenses match these filters" : "No expenses recorded yet"}
-    </p>
-    <p className="mt-2 max-w-sm text-sm leading-6 text-slate-500">
-      {hasActiveFilters
-        ? "Clear filters to see all saved expenses, or adjust the date range to include the expense date."
-        : "Add your first expense and it will appear here with amount, category, and date details."}
-    </p>
-    {hasActiveFilters ? (
+  <EmptyState
+    action={
+      hasActiveFilters ? (
       <button
-        className="mt-5 rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+        className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
         onClick={onClearFilters}
         type="button"
       >
         Clear filters
       </button>
-    ) : null}
-  </div>
+      ) : null
+    }
+    description={
+      hasActiveFilters
+        ? "Your expenses may exist, but the current category or date range is hiding them."
+        : "Create your first expense and it will appear here with amount, category, and date details."
+    }
+    icon={hasActiveFilters ? "!" : "+"}
+    title={
+      hasActiveFilters
+        ? "No expenses match these filters"
+        : "No expenses recorded yet"
+    }
+  />
 );
 
 const ExpenseErrorState = ({ message, onRetry }) => (

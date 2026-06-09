@@ -5,6 +5,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import EmptyState from "../common/EmptyState.jsx";
 import { formatCurrency } from "../../utils/formatters.js";
 
 const CHART_COLORS = [
@@ -37,7 +38,7 @@ const CategoryTooltip = ({ active, payload }) => {
   );
 };
 
-const CategoryPieChart = ({ data }) => {
+const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
   const hasData = data.length > 0;
   const totalAmount = data.reduce(
     (total, category) => total + Number(category.amount),
@@ -137,13 +138,31 @@ const CategoryPieChart = ({ data }) => {
           </div>
         </>
       ) : (
-        <div className="mt-5 flex min-h-56 flex-col items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 px-6 text-center">
-          <p className="text-sm font-semibold text-slate-950">
-            No chart data yet
-          </p>
-          <p className="mt-2 text-sm leading-6 text-slate-500">
-            Add expenses or clear filters to populate category distribution.
-          </p>
+        <div className="mt-5">
+          <EmptyState
+            action={
+              hasActiveFilters ? (
+                <button
+                  className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                  onClick={onClearFilters}
+                  type="button"
+                >
+                  Clear filters
+                </button>
+              ) : null
+            }
+            description={
+              hasActiveFilters
+                ? "The current filters do not return expenses, so there is no category breakdown to show."
+                : "Add expenses to populate category distribution."
+            }
+            icon="○"
+            title={
+              hasActiveFilters
+                ? "No chart data for these filters"
+                : "No chart data yet"
+            }
+          />
         </div>
       )}
     </section>

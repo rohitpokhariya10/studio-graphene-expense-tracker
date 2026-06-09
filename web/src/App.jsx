@@ -38,6 +38,7 @@ const App = () => {
     filters.category || filters.endDate || filters.startDate
   );
   const summary = getExpenseSummary(expenses);
+  const clearFilters = () => setFilters(defaultFilters);
 
   const handleExpenseSaved = async () => {
     await refreshExpenses();
@@ -131,7 +132,7 @@ const App = () => {
               expenses={expenses}
               hasActiveFilters={hasActiveFilters}
               isLoading={isLoading}
-              onClearFilters={() => setFilters(defaultFilters)}
+              onClearFilters={clearFilters}
               onDeleteExpense={(expense) => {
                 setDeleteError(null);
                 setDeletingExpense(expense);
@@ -144,7 +145,11 @@ const App = () => {
           <aside className="space-y-4">
             <SummaryPanel summary={summary} />
             <BudgetTracker monthlyTotal={summary.monthlyTotal} />
-            <CategoryPieChart data={categoryBreakdown} />
+            <CategoryPieChart
+              data={categoryBreakdown}
+              hasActiveFilters={hasActiveFilters}
+              onClearFilters={clearFilters}
+            />
           </aside>
         </div>
       </section>
