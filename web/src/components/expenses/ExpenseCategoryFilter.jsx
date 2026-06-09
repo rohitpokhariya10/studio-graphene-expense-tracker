@@ -82,7 +82,7 @@ const ExpenseCategoryFilter = ({
         </button>
       </div>
 
-      <div className="mt-4 grid gap-4 lg:grid-cols-3">
+      <div className="mt-4 grid gap-4 md:grid-cols-3">
         <div>
           <label
             className="text-sm font-medium text-slate-700"

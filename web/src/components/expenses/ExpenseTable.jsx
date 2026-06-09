@@ -22,13 +22,13 @@ const ExpenseEmptyState = ({ hasActiveFilters, onClearFilters }) => (
   <EmptyState
     action={
       hasActiveFilters ? (
-      <button
-        className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
-        onClick={onClearFilters}
-        type="button"
-      >
-        Clear filters
-      </button>
+        <button
+          className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+          onClick={onClearFilters}
+          type="button"
+        >
+          Clear filters
+        </button>
       ) : null
     }
     description={
@@ -99,7 +99,7 @@ const ExpenseTable = ({
         ) : null}
         {!isLoading && !error && expenses.length > 0 ? (
           <div className="overflow-hidden rounded-lg border border-slate-200">
-            <div className="hidden bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:grid sm:grid-cols-[1fr_120px_120px_110px_150px]">
+            <div className="hidden bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 lg:grid lg:grid-cols-[1fr_120px_120px_110px_150px]">
               <span>Expense</span>
               <span>Category</span>
               <span>Date</span>
@@ -109,7 +109,7 @@ const ExpenseTable = ({
             <div className="divide-y divide-slate-100">
               {expenses.map((expense) => (
                 <article
-                  className={`grid gap-3 px-4 py-4 sm:grid-cols-[1fr_120px_120px_110px_150px] sm:items-center ${
+                  className={`grid gap-4 px-4 py-4 lg:grid-cols-[1fr_120px_120px_110px_150px] lg:items-center ${
                     editingExpenseId === expense._id ? "bg-emerald-50/60" : ""
                   }`}
                   key={expense._id}
@@ -124,16 +124,33 @@ const ExpenseTable = ({
                       </p>
                     ) : null}
                   </div>
-                  <span className="w-fit rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                    {categoryLabels[expense.category] ?? expense.category}
-                  </span>
-                  <p className="text-sm text-slate-600">
-                    {formatDate(expense.date)}
-                  </p>
-                  <p className="text-left text-sm font-semibold text-slate-950 sm:text-right">
-                    {formatCurrency(expense.amount)}
-                  </p>
-                  <div className="flex flex-wrap gap-2 sm:justify-end">
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:contents">
+                    <div className="lg:contents">
+                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400 lg:hidden">
+                        Category
+                      </p>
+                      <span className="w-fit rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
+                        {categoryLabels[expense.category] ?? expense.category}
+                      </span>
+                    </div>
+                    <div className="lg:contents">
+                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400 lg:hidden">
+                        Date
+                      </p>
+                      <p className="text-sm text-slate-600">
+                        {formatDate(expense.date)}
+                      </p>
+                    </div>
+                    <div className="col-span-2 sm:col-span-1 lg:contents">
+                      <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400 lg:hidden">
+                        Amount
+                      </p>
+                      <p className="text-left text-sm font-semibold text-slate-950 lg:text-right">
+                        {formatCurrency(expense.amount)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2 sm:flex-row lg:justify-end">
                     <button
                       className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
                       onClick={() => onEditExpense(expense)}

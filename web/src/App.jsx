@@ -74,7 +74,7 @@ const App = () => {
 
   return (
     <main className="min-h-screen bg-[#f6f8fb] text-slate-950">
-      <section className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8">
+      <section className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-5 sm:gap-8 sm:px-6 sm:py-6 lg:px-8">
         <header className="flex flex-col gap-5 border-b border-slate-200/80 pb-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
@@ -87,7 +87,7 @@ const App = () => {
               Record spending with clear categorization and reliable validation.
             </p>
           </div>
-          <div className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-sm">
+          <div className="flex w-full items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 shadow-sm sm:w-auto">
             <span className="size-2.5 rounded-full bg-emerald-500 shadow-[0_0_0_4px_rgba(16,185,129,0.12)]" />
             <div>
               <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
@@ -100,7 +100,7 @@ const App = () => {
           </div>
         </header>
 
-        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
           <div className="space-y-6">
             <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
               <ExpenseForm
@@ -122,7 +122,7 @@ const App = () => {
               startDate={filters.startDate}
             />
 
-            <div className="flex justify-end">
+            <div className="flex justify-stretch sm:justify-end">
               <ExpenseExportButton expenses={expenses} />
             </div>
 
@@ -142,7 +142,7 @@ const App = () => {
             />
           </div>
 
-          <aside className="space-y-4">
+          <aside className="space-y-4 xl:sticky xl:top-6 xl:self-start">
             <SummaryPanel summary={summary} />
             <BudgetTracker monthlyTotal={summary.monthlyTotal} />
             <CategoryPieChart
