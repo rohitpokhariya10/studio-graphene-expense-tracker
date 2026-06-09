@@ -53,7 +53,7 @@ const FieldError = ({ message }) => {
   return <p className="mt-2 text-sm text-red-600">{message}</p>;
 };
 
-const ExpenseForm = () => {
+const ExpenseForm = ({ onExpenseCreated }) => {
   const [values, setValues] = useState(initialFormValues);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -96,6 +96,7 @@ const ExpenseForm = () => {
       });
 
       setValues(initialFormValues);
+      onExpenseCreated?.();
       setSubmitState({
         type: "success",
         message: "Expense created successfully.",

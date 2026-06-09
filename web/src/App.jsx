@@ -1,6 +1,31 @@
 import ExpenseForm from "./components/expenses/ExpenseForm.jsx";
+import ExpenseTable from "./components/expenses/ExpenseTable.jsx";
+import { useExpenses } from "./hooks/useExpenses.js";
+import { formatCurrency } from "./utils/formatters.js";
+
+const getMonthlyTotal = (expenses) => {
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
+  return expenses.reduce((total, expense) => {
+    const expenseDate = new Date(expense.date);
+
+    if (
+      expenseDate.getMonth() !== currentMonth ||
+      expenseDate.getFullYear() !== currentYear
+    ) {
+      return total;
+    }
+
+    return total + Number(expense.amount);
+  }, 0);
+};
 
 const App = () => {
+  const { error, expenses, isLoading, refreshExpenses } = useExpenses();
+  const monthlyTotal = getMonthlyTotal(expenses);
+
   return (
     <main className="min-h-screen bg-[#f6f8fb] text-slate-950">
       <section className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8">
@@ -30,9 +55,18 @@ const App = () => {
         </header>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
-          <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
-            <ExpenseForm />
-          </section>
+          <div className="space-y-6">
+            <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
+              <ExpenseForm onExpenseCreated={refreshExpenses} />
+            </section>
+
+            <ExpenseTable
+              error={error}
+              expenses={expenses}
+              isLoading={isLoading}
+              onRetry={refreshExpenses}
+            />
+          </div>
 
           <aside className="space-y-4">
             <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
@@ -42,15 +76,20 @@ const App = () => {
                     Monthly total
                   </p>
                   <p className="mt-2 text-3xl font-semibold text-slate-950">
-                    Rs. 0
+                    {formatCurrency(monthlyTotal)}
                   </p>
                 </div>
                 <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-                  Draft
+                  Live
                 </span>
               </div>
               <div className="mt-5 h-2 rounded-full bg-slate-100">
-                <div className="h-2 w-1/4 rounded-full bg-emerald-600" />
+                <div
+                  className="h-2 rounded-full bg-emerald-600 transition-all"
+                  style={{
+                    width: `${Math.min((monthlyTotal / 10000) * 100, 100)}%`,
+                  }}
+                />
               </div>
             </section>
 

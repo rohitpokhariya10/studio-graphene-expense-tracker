@@ -9,3 +9,8 @@ export const createExpense = async (payload) => {
   const { data } = await apiClient.post("/expenses", payload);
   return data;
 };
+
+export const getExpenses = async () => {
+  const { data } = await apiClient.get("/expenses");
+  return data;
+};
