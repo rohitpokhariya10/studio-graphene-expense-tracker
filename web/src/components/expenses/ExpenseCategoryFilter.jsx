@@ -3,6 +3,19 @@ import { EXPENSE_CATEGORIES } from "../../constants/expenseCategories.js";
 const inputClasses =
   "mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-950 shadow-sm shadow-slate-200/40 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100";
 
+const formatDateInputValue = (date) => date.toISOString().slice(0, 10);
+
+const getCurrentMonthRange = () => {
+  const today = new Date();
+  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+  return {
+    endDate: formatDateInputValue(endOfMonth),
+    startDate: formatDateInputValue(startOfMonth),
+  };
+};
+
 const ExpenseCategoryFilter = ({
   category,
   endDate,
@@ -35,6 +48,16 @@ const ExpenseCategoryFilter = ({
             Clear
           </button>
         ) : null}
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        <button
+          className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-800 transition hover:bg-emerald-100"
+          onClick={() => onChange(getCurrentMonthRange())}
+          type="button"
+        >
+          This month
+        </button>
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-3">
