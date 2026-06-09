@@ -27,3 +27,17 @@ export const updateExpense = async (expenseId, payload) => {
 
   return expense;
 };
+
+export const deleteExpense = async (expenseId) => {
+  if (!mongoose.Types.ObjectId.isValid(expenseId)) {
+    throw createHttpError(400, "Expense id is invalid");
+  }
+
+  const expense = await Expense.findByIdAndDelete(expenseId).lean();
+
+  if (!expense) {
+    throw createHttpError(404, "Expense not found");
+  }
+
+  return expense;
+};

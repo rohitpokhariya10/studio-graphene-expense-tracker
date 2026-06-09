@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   createExpense,
+  deleteExpense,
   getExpenses,
   updateExpense,
 } from "./expense.controller.js";
@@ -8,6 +9,7 @@ import * as expenseService from "../services/expense.service.js";
 
 vi.mock("../services/expense.service.js", () => ({
   createExpense: vi.fn(),
+  deleteExpense: vi.fn(),
   getExpenses: vi.fn(),
   updateExpense: vi.fn(),
 }));
@@ -173,6 +175,50 @@ describe("updateExpense controller", () => {
     expenseService.updateExpense.mockRejectedValue(error);
 
     await updateExpense(req, res, next);
+
+    expect(next).toHaveBeenCalledWith(error);
+  });
+});
+
+describe("deleteExpense controller", () => {
+  const createResponse = () => {
+    const res = {};
+    res.status = vi.fn(() => res);
+    res.json = vi.fn(() => res);
+    return res;
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("deletes an expense and returns a 200 response", async () => {
+    const req = { params: { id: "expense-id" } };
+    const res = createResponse();
+    const next = vi.fn();
+
+    expenseService.deleteExpense.mockResolvedValue({ _id: "expense-id" });
+
+    await deleteExpense(req, res, next);
+
+    expect(expenseService.deleteExpense).toHaveBeenCalledWith("expense-id");
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith({
+      success: true,
+      message: "Expense deleted successfully",
+    });
+    expect(next).not.toHaveBeenCalled();
+  });
+
+  it("passes delete errors to the error middleware", async () => {
+    const error = new Error("Database failed");
+    const req = { params: { id: "expense-id" } };
+    const res = createResponse();
+    const next = vi.fn();
+
+    expenseService.deleteExpense.mockRejectedValue(error);
+
+    await deleteExpense(req, res, next);
 
     expect(next).toHaveBeenCalledWith(error);
   });

@@ -42,3 +42,16 @@ export const updateExpense = async (req, res, next) => {
     next(error);
   }
 };
+
+export const deleteExpense = async (req, res, next) => {
+  try {
+    await expenseService.deleteExpense(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: "Expense deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
