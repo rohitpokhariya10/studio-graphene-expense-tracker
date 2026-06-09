@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DeleteExpenseModal from "./components/expenses/DeleteExpenseModal.jsx";
+import ExpenseCategoryFilter from "./components/expenses/ExpenseCategoryFilter.jsx";
 import ExpenseForm from "./components/expenses/ExpenseForm.jsx";
 import ExpenseTable from "./components/expenses/ExpenseTable.jsx";
 import { useExpenses } from "./hooks/useExpenses.js";
@@ -26,7 +27,10 @@ const getMonthlyTotal = (expenses) => {
 };
 
 const App = () => {
-  const { error, expenses, isLoading, refreshExpenses } = useExpenses();
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const { error, expenses, isLoading, refreshExpenses } = useExpenses({
+    category: categoryFilter,
+  });
   const [deleteError, setDeleteError] = useState(null);
   const [deletingExpense, setDeletingExpense] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -102,6 +106,11 @@ const App = () => {
                 onExpenseSaved={handleExpenseSaved}
               />
             </section>
+
+            <ExpenseCategoryFilter
+              onChange={setCategoryFilter}
+              value={categoryFilter}
+            />
 
             <ExpenseTable
               editingExpenseId={editingExpense?._id}

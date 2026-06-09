@@ -1,4 +1,4 @@
-import { Expense } from "../models/expense.model.js";
+import { EXPENSE_CATEGORIES, Expense } from "../models/expense.model.js";
 import mongoose from "mongoose";
 import { createHttpError } from "../utils/http-error.js";
 
@@ -7,8 +7,18 @@ export const createExpense = async (payload) => {
   return expense.toObject();
 };
 
-export const getExpenses = async () => {
-  return Expense.find().sort({ date: -1, createdAt: -1 }).lean();
+export const getExpenses = async ({ category } = {}) => {
+  const query = {};
+
+  if (category) {
+    if (!EXPENSE_CATEGORIES.includes(category)) {
+      throw createHttpError(400, "Expense category is invalid");
+    }
+
+    query.category = category;
+  }
+
+  return Expense.find(query).sort({ date: -1, createdAt: -1 }).lean();
 };
 
 export const updateExpense = async (expenseId, payload) => {

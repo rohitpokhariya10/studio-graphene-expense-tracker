@@ -89,7 +89,7 @@ describe("getExpenses controller", () => {
         date: new Date("2026-06-09"),
       },
     ];
-    const req = {};
+    const req = { query: {} };
     const res = createResponse();
     const next = vi.fn();
 
@@ -97,7 +97,9 @@ describe("getExpenses controller", () => {
 
     await getExpenses(req, res, next);
 
-    expect(expenseService.getExpenses).toHaveBeenCalledWith();
+    expect(expenseService.getExpenses).toHaveBeenCalledWith({
+      category: undefined,
+    });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
       success: true,
@@ -110,7 +112,7 @@ describe("getExpenses controller", () => {
 
   it("passes service errors to the error middleware", async () => {
     const error = new Error("Database failed");
-    const req = {};
+    const req = { query: { category: "food" } };
     const res = createResponse();
     const next = vi.fn();
 
@@ -118,6 +120,9 @@ describe("getExpenses controller", () => {
 
     await getExpenses(req, res, next);
 
+    expect(expenseService.getExpenses).toHaveBeenCalledWith({
+      category: "food",
+    });
     expect(next).toHaveBeenCalledWith(error);
   });
 });

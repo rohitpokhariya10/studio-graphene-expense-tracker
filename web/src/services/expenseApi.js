@@ -10,8 +10,8 @@ export const createExpense = async (payload) => {
   return data;
 };
 
-export const getExpenses = async () => {
-  const { data } = await apiClient.get("/expenses");
+export const getExpenses = async (params = {}) => {
+  const { data } = await apiClient.get("/expenses", { params });
   return data;
 };
 

@@ -20,9 +20,28 @@ describe("expense service", () => {
 
     await getExpenses();
 
-    expect(find).toHaveBeenCalledWith();
+    expect(find).toHaveBeenCalledWith({});
     expect(sort).toHaveBeenCalledWith({ date: -1, createdAt: -1 });
     expect(lean).toHaveBeenCalledWith();
+  });
+
+  it("fetches expenses by category", async () => {
+    const lean = vi.fn();
+    const sort = vi.fn(() => ({ lean }));
+    const find = vi.spyOn(Expense, "find").mockReturnValue({ sort });
+
+    await getExpenses({ category: "food" });
+
+    expect(find).toHaveBeenCalledWith({ category: "food" });
+    expect(sort).toHaveBeenCalledWith({ date: -1, createdAt: -1 });
+    expect(lean).toHaveBeenCalledWith();
+  });
+
+  it("rejects invalid category filters", async () => {
+    await expect(getExpenses({ category: "invalid" })).rejects.toMatchObject({
+      statusCode: 400,
+      message: "Expense category is invalid",
+    });
   });
 
   it("updates an expense by id", async () => {

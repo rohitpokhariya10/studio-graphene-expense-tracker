@@ -14,9 +14,11 @@ export const createExpense = async (req, res, next) => {
   }
 };
 
-export const getExpenses = async (_req, res, next) => {
+export const getExpenses = async (req, res, next) => {
   try {
-    const expenses = await expenseService.getExpenses();
+    const expenses = await expenseService.getExpenses({
+      category: req.query.category,
+    });
 
     res.status(200).json({
       success: true,
