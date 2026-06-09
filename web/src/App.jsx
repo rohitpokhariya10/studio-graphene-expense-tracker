@@ -3,6 +3,7 @@ import SummaryPanel from "./components/analytics/SummaryPanel.jsx";
 import CategoryPieChart from "./components/charts/CategoryPieChart.jsx";
 import DeleteExpenseModal from "./components/expenses/DeleteExpenseModal.jsx";
 import ExpenseCategoryFilter from "./components/expenses/ExpenseCategoryFilter.jsx";
+import ExpenseExportButton from "./components/expenses/ExpenseExportButton.jsx";
 import ExpenseForm from "./components/expenses/ExpenseForm.jsx";
 import ExpenseTable from "./components/expenses/ExpenseTable.jsx";
 import { EXPENSE_CATEGORIES } from "./constants/expenseCategories.js";
@@ -112,6 +113,10 @@ const App = () => {
               }
               startDate={filters.startDate}
             />
+
+            <div className="flex justify-end">
+              <ExpenseExportButton expenses={expenses} />
+            </div>
 
             <ExpenseTable
               editingExpenseId={editingExpense?._id}

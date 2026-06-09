@@ -1,0 +1,25 @@
+import { buildExpensesCsv, downloadCsv } from "../../utils/csv.js";
+
+const ExpenseExportButton = ({ expenses }) => {
+  const isDisabled = expenses.length === 0;
+
+  const handleExport = () => {
+    const csvContent = buildExpensesCsv(expenses);
+    const exportDate = new Date().toISOString().slice(0, 10);
+
+    downloadCsv(`expense-export-${exportDate}.csv`, csvContent);
+  };
+
+  return (
+    <button
+      className="inline-flex w-full items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 sm:w-auto"
+      disabled={isDisabled}
+      onClick={handleExport}
+      type="button"
+    >
+      Export CSV
+    </button>
+  );
+};
+
+export default ExpenseExportButton;
