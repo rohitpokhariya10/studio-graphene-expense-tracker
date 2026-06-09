@@ -45,3 +45,33 @@ export const getExpenseSummary = (expenses) => {
     totalCount,
   };
 };
+
+export const getCategoryBreakdown = (expenses, categories) => {
+  const categoryLabels = categories.reduce((labels, category) => {
+    labels[category.value] = category.label;
+    return labels;
+  }, {});
+
+  return expenses
+    .reduce((breakdown, expense) => {
+      const existingCategory = breakdown.find(
+        (item) => item.category === expense.category
+      );
+
+      if (existingCategory) {
+        existingCategory.amount += Number(expense.amount);
+        existingCategory.count += 1;
+        return breakdown;
+      }
+
+      breakdown.push({
+        amount: Number(expense.amount),
+        category: expense.category,
+        count: 1,
+        label: categoryLabels[expense.category] ?? expense.category,
+      });
+
+      return breakdown;
+    }, [])
+    .sort((firstCategory, secondCategory) => secondCategory.amount - firstCategory.amount);
+};

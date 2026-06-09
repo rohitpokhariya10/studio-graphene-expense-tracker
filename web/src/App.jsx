@@ -1,12 +1,17 @@
 import { useState } from "react";
 import SummaryPanel from "./components/analytics/SummaryPanel.jsx";
+import CategoryPieChart from "./components/charts/CategoryPieChart.jsx";
 import DeleteExpenseModal from "./components/expenses/DeleteExpenseModal.jsx";
 import ExpenseCategoryFilter from "./components/expenses/ExpenseCategoryFilter.jsx";
 import ExpenseForm from "./components/expenses/ExpenseForm.jsx";
 import ExpenseTable from "./components/expenses/ExpenseTable.jsx";
+import { EXPENSE_CATEGORIES } from "./constants/expenseCategories.js";
 import { useExpenses } from "./hooks/useExpenses.js";
 import { deleteExpense } from "./services/expenseApi.js";
-import { getExpenseSummary } from "./utils/analytics.js";
+import {
+  getCategoryBreakdown,
+  getExpenseSummary,
+} from "./utils/analytics.js";
 
 const App = () => {
   const [filters, setFilters] = useState({
@@ -23,6 +28,7 @@ const App = () => {
   const [deletingExpense, setDeletingExpense] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [editingExpense, setEditingExpense] = useState(null);
+  const categoryBreakdown = getCategoryBreakdown(expenses, EXPENSE_CATEGORIES);
   const summary = getExpenseSummary(expenses);
 
   const handleExpenseSaved = async () => {
@@ -123,29 +129,7 @@ const App = () => {
 
           <aside className="space-y-4">
             <SummaryPanel summary={summary} />
-
-            <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
-              <h2 className="text-lg font-semibold text-slate-950">
-                Expense stream
-              </h2>
-              <div className="mt-5 space-y-3">
-                {["Create an expense", "Review saved entries", "Track totals"].map(
-                  (item, index) => (
-                    <div
-                      className="flex items-center gap-3 rounded-md border border-slate-100 bg-slate-50 px-3 py-3"
-                      key={item}
-                    >
-                      <span className="flex size-7 items-center justify-center rounded-full bg-white text-xs font-semibold text-slate-500 shadow-sm">
-                        {index + 1}
-                      </span>
-                      <p className="text-sm font-medium text-slate-700">
-                        {item}
-                      </p>
-                    </div>
-                  )
-                )}
-              </div>
-            </section>
+            <CategoryPieChart data={categoryBreakdown} />
           </aside>
         </div>
       </section>
