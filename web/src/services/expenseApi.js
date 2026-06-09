@@ -14,3 +14,8 @@ export const getExpenses = async () => {
   const { data } = await apiClient.get("/expenses");
   return data;
 };
+
+export const updateExpense = async (expenseId, payload) => {
+  const { data } = await apiClient.put(`/expenses/${expenseId}`, payload);
+  return data;
+};

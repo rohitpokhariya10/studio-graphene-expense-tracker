@@ -46,7 +46,14 @@ const ExpenseErrorState = ({ message, onRetry }) => (
   </div>
 );
 
-const ExpenseTable = ({ error, expenses, isLoading, onRetry }) => {
+const ExpenseTable = ({
+  editingExpenseId,
+  error,
+  expenses,
+  isLoading,
+  onEditExpense,
+  onRetry,
+}) => {
   return (
     <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -73,16 +80,19 @@ const ExpenseTable = ({ error, expenses, isLoading, onRetry }) => {
         ) : null}
         {!isLoading && !error && expenses.length > 0 ? (
           <div className="overflow-hidden rounded-lg border border-slate-200">
-            <div className="hidden bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:grid sm:grid-cols-[1fr_130px_130px_120px]">
+            <div className="hidden bg-slate-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-500 sm:grid sm:grid-cols-[1fr_130px_130px_120px_90px]">
               <span>Expense</span>
               <span>Category</span>
               <span>Date</span>
               <span className="text-right">Amount</span>
+              <span className="text-right">Action</span>
             </div>
             <div className="divide-y divide-slate-100">
               {expenses.map((expense) => (
                 <article
-                  className="grid gap-3 px-4 py-4 sm:grid-cols-[1fr_130px_130px_120px] sm:items-center"
+                  className={`grid gap-3 px-4 py-4 sm:grid-cols-[1fr_130px_130px_120px_90px] sm:items-center ${
+                    editingExpenseId === expense._id ? "bg-emerald-50/60" : ""
+                  }`}
                   key={expense._id}
                 >
                   <div>
@@ -104,6 +114,13 @@ const ExpenseTable = ({ error, expenses, isLoading, onRetry }) => {
                   <p className="text-left text-sm font-semibold text-slate-950 sm:text-right">
                     {formatCurrency(expense.amount)}
                   </p>
+                  <button
+                    className="w-fit rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:ml-auto"
+                    onClick={() => onEditExpense(expense)}
+                    type="button"
+                  >
+                    {editingExpenseId === expense._id ? "Editing" : "Edit"}
+                  </button>
                 </article>
               ))}
             </div>

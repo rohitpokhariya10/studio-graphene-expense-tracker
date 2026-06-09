@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EXPENSE_CATEGORIES } from "../../constants/expenseCategories.js";
-import { createExpense } from "../../services/expenseApi.js";
+import { createExpense, updateExpense } from "../../services/expenseApi.js";
 
 const initialFormValues = {
   title: "",
@@ -53,11 +53,31 @@ const FieldError = ({ message }) => {
   return <p className="mt-2 text-sm text-red-600">{message}</p>;
 };
 
-const ExpenseForm = ({ onExpenseCreated }) => {
+const getFormValuesFromExpense = (expense) => ({
+  title: expense.title ?? "",
+  amount: expense.amount?.toString() ?? "",
+  category: expense.category ?? "",
+  date: expense.date ? new Date(expense.date).toISOString().slice(0, 10) : "",
+  note: expense.note ?? "",
+});
+
+const ExpenseForm = ({ editingExpense, onCancelEdit, onExpenseSaved }) => {
   const [values, setValues] = useState(initialFormValues);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitState, setSubmitState] = useState(null);
+  const isEditing = Boolean(editingExpense);
+
+  useEffect(() => {
+    if (editingExpense) {
+      setValues(getFormValuesFromExpense(editingExpense));
+      setErrors({});
+      setSubmitState(null);
+      return;
+    }
+
+    setValues(initialFormValues);
+  }, [editingExpense]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -87,26 +107,34 @@ const ExpenseForm = ({ onExpenseCreated }) => {
     setSubmitState(null);
 
     try {
-      await createExpense({
+      const payload = {
         title: values.title.trim(),
         amount: Number(values.amount),
         category: values.category,
         date: values.date,
         note: values.note.trim(),
-      });
+      };
+
+      if (isEditing) {
+        await updateExpense(editingExpense._id, payload);
+      } else {
+        await createExpense(payload);
+      }
 
       setValues(initialFormValues);
-      onExpenseCreated?.();
+      onExpenseSaved?.();
       setSubmitState({
         type: "success",
-        message: "Expense created successfully.",
+        message: isEditing
+          ? "Expense updated successfully."
+          : "Expense created successfully.",
       });
     } catch (error) {
       setSubmitState({
         type: "error",
         message:
           error.response?.data?.message ??
-          "Unable to create expense. Please try again.",
+          `Unable to ${isEditing ? "update" : "create"} expense. Please try again.`,
       });
     } finally {
       setIsSubmitting(false);
@@ -117,10 +145,12 @@ const ExpenseForm = ({ onExpenseCreated }) => {
     <form className="space-y-5" onSubmit={handleSubmit}>
       <div>
         <h2 className="text-2xl font-semibold text-slate-950">
-          Add expense
+          {isEditing ? "Edit expense" : "Add expense"}
         </h2>
         <p className="mt-2 text-sm leading-6 text-slate-500">
-          Keep each entry simple, accurate, and easy to reconcile later.
+          {isEditing
+            ? "Update the selected entry while keeping the record consistent."
+            : "Keep each entry simple, accurate, and easy to reconcile later."}
         </p>
       </div>
 
@@ -229,13 +259,30 @@ const ExpenseForm = ({ onExpenseCreated }) => {
         </div>
       </div>
 
-      <button
-        className="inline-flex w-full items-center justify-center rounded-md bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300 sm:w-auto"
-        disabled={isSubmitting}
-        type="submit"
-      >
-        {isSubmitting ? "Saving expense..." : "Save expense"}
-      </button>
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <button
+          className="inline-flex w-full items-center justify-center rounded-md bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300 sm:w-auto"
+          disabled={isSubmitting}
+          type="submit"
+        >
+          {isSubmitting
+            ? isEditing
+              ? "Updating expense..."
+              : "Saving expense..."
+            : isEditing
+              ? "Update expense"
+              : "Save expense"}
+        </button>
+        {isEditing ? (
+          <button
+            className="inline-flex w-full items-center justify-center rounded-md border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:w-auto"
+            onClick={onCancelEdit}
+            type="button"
+          >
+            Cancel
+          </button>
+        ) : null}
+      </div>
     </form>
   );
 };

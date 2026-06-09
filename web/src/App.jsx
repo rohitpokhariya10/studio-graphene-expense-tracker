@@ -1,3 +1,4 @@
+import { useState } from "react";
 import ExpenseForm from "./components/expenses/ExpenseForm.jsx";
 import ExpenseTable from "./components/expenses/ExpenseTable.jsx";
 import { useExpenses } from "./hooks/useExpenses.js";
@@ -24,7 +25,13 @@ const getMonthlyTotal = (expenses) => {
 
 const App = () => {
   const { error, expenses, isLoading, refreshExpenses } = useExpenses();
+  const [editingExpense, setEditingExpense] = useState(null);
   const monthlyTotal = getMonthlyTotal(expenses);
+
+  const handleExpenseSaved = async () => {
+    await refreshExpenses();
+    setEditingExpense(null);
+  };
 
   return (
     <main className="min-h-screen bg-[#f6f8fb] text-slate-950">
@@ -57,13 +64,19 @@ const App = () => {
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
           <div className="space-y-6">
             <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/60 sm:p-6">
-              <ExpenseForm onExpenseCreated={refreshExpenses} />
+              <ExpenseForm
+                editingExpense={editingExpense}
+                onCancelEdit={() => setEditingExpense(null)}
+                onExpenseSaved={handleExpenseSaved}
+              />
             </section>
 
             <ExpenseTable
+              editingExpenseId={editingExpense?._id}
               error={error}
               expenses={expenses}
               isLoading={isLoading}
+              onEditExpense={setEditingExpense}
               onRetry={refreshExpenses}
             />
           </div>
