@@ -27,9 +27,15 @@ const getMonthlyTotal = (expenses) => {
 };
 
 const App = () => {
-  const [categoryFilter, setCategoryFilter] = useState("");
+  const [filters, setFilters] = useState({
+    category: "",
+    endDate: "",
+    startDate: "",
+  });
   const { error, expenses, isLoading, refreshExpenses } = useExpenses({
-    category: categoryFilter,
+    category: filters.category,
+    endDate: filters.endDate,
+    startDate: filters.startDate,
   });
   const [deleteError, setDeleteError] = useState(null);
   const [deletingExpense, setDeletingExpense] = useState(null);
@@ -108,8 +114,15 @@ const App = () => {
             </section>
 
             <ExpenseCategoryFilter
-              onChange={setCategoryFilter}
-              value={categoryFilter}
+              category={filters.category}
+              endDate={filters.endDate}
+              onChange={(nextFilters) =>
+                setFilters((currentFilters) => ({
+                  ...currentFilters,
+                  ...nextFilters,
+                }))
+              }
+              startDate={filters.startDate}
             />
 
             <ExpenseTable

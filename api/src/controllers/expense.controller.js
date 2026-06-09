@@ -18,6 +18,8 @@ export const getExpenses = async (req, res, next) => {
   try {
     const expenses = await expenseService.getExpenses({
       category: req.query.category,
+      endDate: req.query.endDate,
+      startDate: req.query.startDate,
     });
 
     res.status(200).json({

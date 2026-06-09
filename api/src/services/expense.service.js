@@ -7,7 +7,17 @@ export const createExpense = async (payload) => {
   return expense.toObject();
 };
 
-export const getExpenses = async ({ category } = {}) => {
+const getDateFromFilter = (value, fieldName) => {
+  const date = new Date(`${value}T00:00:00.000Z`);
+
+  if (Number.isNaN(date.getTime())) {
+    throw createHttpError(400, `${fieldName} must be a valid date`);
+  }
+
+  return date;
+};
+
+export const getExpenses = async ({ category, endDate, startDate } = {}) => {
   const query = {};
 
   if (category) {
@@ -16,6 +26,24 @@ export const getExpenses = async ({ category } = {}) => {
     }
 
     query.category = category;
+  }
+
+  if (startDate || endDate) {
+    query.date = {};
+
+    if (startDate) {
+      query.date.$gte = getDateFromFilter(startDate, "startDate");
+    }
+
+    if (endDate) {
+      const parsedEndDate = getDateFromFilter(endDate, "endDate");
+      parsedEndDate.setUTCHours(23, 59, 59, 999);
+      query.date.$lte = parsedEndDate;
+    }
+
+    if (query.date.$gte && query.date.$lte && query.date.$gte > query.date.$lte) {
+      throw createHttpError(400, "startDate cannot be after endDate");
+    }
   }
 
   return Expense.find(query).sort({ date: -1, createdAt: -1 }).lean();

@@ -99,6 +99,8 @@ describe("getExpenses controller", () => {
 
     expect(expenseService.getExpenses).toHaveBeenCalledWith({
       category: undefined,
+      endDate: undefined,
+      startDate: undefined,
     });
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({
@@ -112,7 +114,13 @@ describe("getExpenses controller", () => {
 
   it("passes service errors to the error middleware", async () => {
     const error = new Error("Database failed");
-    const req = { query: { category: "food" } };
+    const req = {
+      query: {
+        category: "food",
+        endDate: "2026-06-30",
+        startDate: "2026-06-01",
+      },
+    };
     const res = createResponse();
     const next = vi.fn();
 
@@ -122,6 +130,8 @@ describe("getExpenses controller", () => {
 
     expect(expenseService.getExpenses).toHaveBeenCalledWith({
       category: "food",
+      endDate: "2026-06-30",
+      startDate: "2026-06-01",
     });
     expect(next).toHaveBeenCalledWith(error);
   });

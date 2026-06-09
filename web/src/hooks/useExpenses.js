@@ -3,7 +3,7 @@ import { getExpenses } from "../services/expenseApi.js";
 
 const normalizeExpenses = (response) => response.data ?? [];
 
-export const useExpenses = ({ category } = {}) => {
+export const useExpenses = ({ category, endDate, startDate } = {}) => {
   const [expenses, setExpenses] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,6 +15,8 @@ export const useExpenses = ({ category } = {}) => {
     try {
       const response = await getExpenses({
         ...(category ? { category } : {}),
+        ...(endDate ? { endDate } : {}),
+        ...(startDate ? { startDate } : {}),
       });
       setExpenses(normalizeExpenses(response));
     } catch (requestError) {
@@ -25,7 +27,7 @@ export const useExpenses = ({ category } = {}) => {
     } finally {
       setIsLoading(false);
     }
-  }, [category]);
+  }, [category, endDate, startDate]);
 
   useEffect(() => {
     fetchExpenses();

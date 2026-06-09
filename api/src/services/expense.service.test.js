@@ -37,6 +37,45 @@ describe("expense service", () => {
     expect(lean).toHaveBeenCalledWith();
   });
 
+  it("fetches expenses by date range", async () => {
+    const lean = vi.fn();
+    const sort = vi.fn(() => ({ lean }));
+    const find = vi.spyOn(Expense, "find").mockReturnValue({ sort });
+
+    await getExpenses({
+      endDate: "2026-06-30",
+      startDate: "2026-06-01",
+    });
+
+    expect(find).toHaveBeenCalledWith({
+      date: {
+        $gte: new Date("2026-06-01"),
+        $lte: new Date("2026-06-30T23:59:59.999Z"),
+      },
+    });
+    expect(sort).toHaveBeenCalledWith({ date: -1, createdAt: -1 });
+    expect(lean).toHaveBeenCalledWith();
+  });
+
+  it("rejects invalid date range filters", async () => {
+    await expect(getExpenses({ startDate: "invalid" })).rejects.toMatchObject({
+      statusCode: 400,
+      message: "startDate must be a valid date",
+    });
+  });
+
+  it("rejects date ranges where startDate is after endDate", async () => {
+    await expect(
+      getExpenses({
+        endDate: "2026-06-01",
+        startDate: "2026-06-30",
+      })
+    ).rejects.toMatchObject({
+      statusCode: 400,
+      message: "startDate cannot be after endDate",
+    });
+  });
+
   it("rejects invalid category filters", async () => {
     await expect(getExpenses({ category: "invalid" })).rejects.toMatchObject({
       statusCode: 400,
