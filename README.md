@@ -4,6 +4,10 @@ Studio Graphene Full Stack Developer Assessment - Exercise 2.
 
 Mini Expense Tracker is a full-stack expense management app built with React, Vite, Express, MongoDB, and Mongoose. It supports expense CRUD, filtering, analytics, charts, CSV export, budget tracking, and responsive dashboard UI.
 
+## AI Assistance Disclosure
+
+AI tools were used as a development assistant for planning, code review, UI polish ideas, documentation wording, and test coverage checks. Final implementation decisions, feature integration, manual verification, and Git workflow were reviewed and completed by the developer.
+
 ## Tech Stack
 
 **Frontend**
