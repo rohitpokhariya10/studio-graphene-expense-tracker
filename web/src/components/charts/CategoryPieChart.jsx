@@ -28,7 +28,7 @@ const CategoryTooltip = ({ active, payload }) => {
   const category = payload[0].payload;
 
   return (
-    <div className="rounded-md border border-slate-200 bg-white px-3 py-2 shadow-lg">
+    <div className="max-w-44 rounded-xl border border-slate-200 bg-white px-3 py-2 text-left shadow-xl shadow-slate-950/10">
       <p className="text-sm font-semibold text-slate-950">{category.label}</p>
       <p className="mt-1 text-sm text-slate-600">
         {formatCurrency(category.amount)} · {category.count}{" "}
@@ -44,6 +44,7 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
     (total, category) => total + Number(category.amount),
     0
   );
+  const categoryCount = data.length;
   const topCategory = data[0];
 
   return (
@@ -99,14 +100,31 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
                     />
                   ))}
                 </Pie>
-                <Tooltip content={<CategoryTooltip />} />
+                <Tooltip
+                  content={<CategoryTooltip />}
+                  cursor={false}
+                  position={{ x: 12, y: 12 }}
+                  wrapperStyle={{ outline: "none", zIndex: 20 }}
+                />
               </PieChart>
             </ResponsiveContainer>
             <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-16 text-center">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Total
               </p>
-              <p className="mt-1 max-w-36 break-words text-[clamp(0.95rem,4vw,1.2rem)] font-semibold leading-tight text-slate-950">
+              <p className="mt-1 text-lg font-semibold leading-tight text-slate-950">
+                {categoryCount}{" "}
+                {categoryCount === 1 ? "category" : "categories"}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-dashboard-soft">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <p className="text-sm font-medium text-slate-500">
+                Visible total
+              </p>
+              <p className="max-w-full break-words text-lg font-semibold leading-tight text-slate-950 sm:text-right">
                 {formatCurrency(totalAmount)}
               </p>
             </div>
