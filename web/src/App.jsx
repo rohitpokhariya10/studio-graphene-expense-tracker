@@ -132,7 +132,7 @@ const App = () => {
           </div>
         </header>
 
-        <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(420px,0.72fr)] 2xl:grid-cols-[minmax(0,1.65fr)_minmax(460px,0.65fr)]">
+        <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(420px,0.72fr)] 2xl:grid-cols-[minmax(0,1.65fr)_minmax(480px,0.65fr)]">
           <div className="min-w-0 space-y-6">
             <section className="rounded-[1.5rem] border border-white/70 bg-white/95 p-5 shadow-dashboard-card sm:p-6 lg:p-7">
               <ExpenseForm
@@ -154,7 +154,7 @@ const App = () => {
               startDate={filters.startDate}
             />
 
-            <div className="flex justify-stretch sm:justify-end">
+            <div className="flex justify-stretch sm:justify-end lg:-mt-2">
               <ExpenseExportButton expenses={expenses} />
             </div>
 
@@ -174,7 +174,7 @@ const App = () => {
             />
           </div>
 
-          <aside className="min-w-0 space-y-5 xl:sticky xl:top-6 xl:self-start">
+          <aside className="min-w-0 space-y-5 xl:sticky xl:top-6 xl:self-start 2xl:space-y-6">
             <SummaryPanel summary={summary} />
             <BudgetTracker expenses={expenses} />
             <CategoryPieChart
