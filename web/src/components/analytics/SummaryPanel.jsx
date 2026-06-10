@@ -1,9 +1,9 @@
 import { formatCurrency, formatDate } from "../../utils/formatters.js";
 
 const SummaryCard = ({ label, value, helper }) => (
-  <article className="rounded-xl border border-slate-200 bg-white p-4 shadow-dashboard-soft">
+  <article className="min-w-0 rounded-xl border border-slate-200 bg-white p-4 shadow-dashboard-soft">
     <p className="text-sm font-medium text-slate-500">{label}</p>
-    <p className="mt-2 text-[1.7rem] font-semibold leading-none text-slate-950">
+    <p className="mt-2 max-w-full break-words text-[clamp(1.6rem,5vw,1.9rem)] font-semibold leading-tight text-slate-950">
       {value}
     </p>
     <p className="mt-3 text-sm leading-5 text-slate-500">{helper}</p>
@@ -15,15 +15,15 @@ const MonthlyTotalCard = ({ monthLabel, monthlyTotal }) => {
   const progress = Math.min((monthlyTotal / visualBenchmark) * 100, 100);
 
   return (
-    <article className="overflow-hidden rounded-xl border border-slate-900 bg-slate-950 p-4 text-white shadow-dashboard-soft">
+    <article className="min-w-0 overflow-hidden rounded-xl border border-slate-900 bg-slate-950 p-4 text-white shadow-dashboard-soft">
       <div className="flex flex-col gap-3">
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex flex-wrap items-start justify-between gap-3">
           <p className="text-sm font-medium text-slate-300">Monthly total</p>
           <span className="shrink-0 whitespace-nowrap rounded-full bg-white/10 px-2.5 py-1 text-xs font-semibold text-slate-200">
             {monthLabel}
           </span>
         </div>
-        <p className="text-[1.7rem] font-semibold leading-none">
+        <p className="max-w-full break-words text-[clamp(1.6rem,5vw,1.9rem)] font-semibold leading-tight">
           {formatCurrency(monthlyTotal)}
         </p>
       </div>
@@ -41,8 +41,8 @@ const MonthlyTotalCard = ({ monthLabel, monthlyTotal }) => {
 };
 
 const HighestExpenseCard = ({ expense }) => (
-    <article className="rounded-xl border border-emerald-200 bg-emerald-50/80 p-4 shadow-dashboard-soft">
-    <div className="flex items-start justify-between gap-4">
+  <article className="min-w-0 rounded-xl border border-emerald-200 bg-emerald-50/80 p-4 shadow-dashboard-soft">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
       <div className="min-w-0">
         <p className="text-sm font-medium text-emerald-800">Highest expense</p>
         <h3 className="mt-2 truncate text-lg font-semibold text-slate-950">
@@ -54,7 +54,7 @@ const HighestExpenseCard = ({ expense }) => (
             : "Add expenses to identify your largest spend."}
         </p>
       </div>
-      <p className="shrink-0 text-xl font-semibold leading-none text-slate-950">
+      <p className="max-w-full break-words text-xl font-semibold leading-tight text-slate-950 sm:text-right">
         {formatCurrency(expense?.amount ?? 0)}
       </p>
     </div>
@@ -78,7 +78,7 @@ const SummaryPanel = ({ summary }) => {
         </p>
       </div>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-2">
+      <div className="mt-5 grid gap-3">
         <SummaryCard
           helper="Total value across the visible expense list."
           label="Total spend"
@@ -88,7 +88,7 @@ const SummaryPanel = ({ summary }) => {
           monthLabel={summary.monthLabel}
           monthlyTotal={summary.monthlyTotal}
         />
-        <div className="grid gap-3 sm:col-span-2 sm:grid-cols-2">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-1">
           <SummaryCard
             helper="Entries returned by active filters."
             label="Entries"
