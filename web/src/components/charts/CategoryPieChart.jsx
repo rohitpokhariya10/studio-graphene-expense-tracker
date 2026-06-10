@@ -31,10 +31,15 @@ const CategoryTooltip = ({ active, payload }) => {
   const category = payload[0].payload;
 
   return (
-    <div className="max-w-48 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-left shadow-xl shadow-slate-950/10">
+    <div className="max-w-56 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-left shadow-xl shadow-slate-950/10">
       <p className="text-sm font-semibold text-slate-950">{category.label}</p>
-      <p className="mt-1 text-sm text-slate-600">
-        {formatCurrency(category.amount)} · {category.count}{" "}
+      <p
+        className="mt-1 max-w-full truncate text-sm text-slate-600"
+        title={`${formatCurrency(category.amount)} · ${category.count} ${
+          category.count === 1 ? "entry" : "entries"
+        }`}
+      >
+        {formatCompactCurrency(category.amount)} · {category.count}{" "}
         {category.count === 1 ? "entry" : "entries"}
       </p>
     </div>
