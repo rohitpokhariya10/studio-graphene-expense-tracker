@@ -300,53 +300,8 @@ const App = () => {
   return (
     <main className="min-h-screen overflow-x-hidden text-slate-950">
       <div className="flex min-h-screen">
-        <aside className="hidden w-64 shrink-0 border-r border-slate-200/80 bg-white/90 px-4 py-6 shadow-dashboard-soft backdrop-blur xl:sticky xl:top-0 xl:block xl:h-screen 2xl:w-72 2xl:px-5">
-          <div className="flex items-center gap-3">
-            <div className="flex size-11 items-center justify-center rounded-2xl bg-slate-950 text-base font-semibold text-white">
-              ET
-            </div>
-            <div>
-              <p className="text-base font-semibold text-slate-950">
-                Expense Tracker
-              </p>
-              <p className="text-xs font-medium uppercase tracking-[0.16em] text-emerald-700">
-                Finance OS
-              </p>
-            </div>
-          </div>
-
-          <nav className="mt-8 space-y-2" aria-label="Primary navigation">
-            {navigationItems.map((item) => (
-              <button
-                className={`flex min-h-12 w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-semibold transition focus:outline-none focus:ring-4 focus:ring-slate-200 ${
-                  activeSection === item.id
-                    ? "bg-slate-950 text-white shadow-dashboard-soft"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
-                }`}
-                key={item.id}
-                onClick={() => navigateTo(item.id)}
-                type="button"
-              >
-                {item.label}
-                {activeSection === item.id ? <span>•</span> : null}
-              </button>
-            ))}
-          </nav>
-
-          <div className="mt-8 rounded-[1.35rem] border border-emerald-200 bg-emerald-50 p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-700">
-              Workspace status
-            </p>
-            <p className="mt-2 text-sm font-semibold text-emerald-950">
-              {summary.totalCount}{" "}
-              {summary.totalCount === 1 ? "transaction" : "transactions"} ·{" "}
-              {summary.monthLabel}
-            </p>
-          </div>
-        </aside>
-
-        <div className="min-w-0 flex-1">
-          <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 px-4 py-3 backdrop-blur-xl sm:px-6 lg:px-8 xl:hidden">
+        <div className="w-full min-w-0 flex-1">
+          <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 px-4 py-3 shadow-sm shadow-slate-950/5 backdrop-blur-xl sm:px-6 lg:px-8">
             <div className="flex items-center justify-between gap-3">
               <button
                 className="flex items-center gap-3 rounded-2xl text-left focus:outline-none focus:ring-4 focus:ring-slate-200"
@@ -365,9 +320,36 @@ const App = () => {
                   </span>
                 </span>
               </button>
+
+              <nav
+                className="hidden items-center gap-1 rounded-2xl border border-slate-200 bg-slate-50/80 p-1 xl:flex"
+                aria-label="Primary navigation"
+              >
+                {navigationItems.map((item) => (
+                  <button
+                    className={`min-h-10 rounded-xl px-4 py-2 text-sm font-semibold transition focus:outline-none focus:ring-4 focus:ring-slate-200 ${
+                      activeSection === item.id
+                        ? "bg-slate-950 text-white shadow-dashboard-soft"
+                        : "text-slate-600 hover:bg-white hover:text-slate-950"
+                    }`}
+                    key={item.id}
+                    onClick={() => navigateTo(item.id)}
+                    type="button"
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </nav>
+
+              <div className="hidden rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-800 xl:block">
+                {summary.totalCount}{" "}
+                {summary.totalCount === 1 ? "transaction" : "transactions"} ·{" "}
+                {summary.monthLabel}
+              </div>
+
               <button
                 aria-expanded={isMobileNavOpen}
-                className="min-h-11 rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm focus:outline-none focus:ring-4 focus:ring-slate-200"
+                className="min-h-11 rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm focus:outline-none focus:ring-4 focus:ring-slate-200 xl:hidden"
                 onClick={() => setIsMobileNavOpen((isOpen) => !isOpen)}
                 type="button"
               >
@@ -376,7 +358,7 @@ const App = () => {
             </div>
             {isMobileNavOpen ? (
               <nav
-                className="mt-3 grid gap-2 rounded-[1.35rem] border border-slate-200 bg-white p-2 shadow-dashboard-card sm:grid-cols-2"
+                className="mt-3 grid gap-2 rounded-[1.35rem] border border-slate-200 bg-white p-2 shadow-dashboard-card sm:grid-cols-2 xl:hidden"
                 aria-label="Mobile navigation"
               >
                 {navigationItems.map((item) => (
