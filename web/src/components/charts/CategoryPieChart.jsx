@@ -28,7 +28,7 @@ const CategoryTooltip = ({ active, payload }) => {
   const category = payload[0].payload;
 
   return (
-    <div className="max-w-44 rounded-xl border border-slate-200 bg-white px-3 py-2 text-left shadow-xl shadow-slate-950/10">
+    <div className="max-w-48 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-left shadow-xl shadow-slate-950/10">
       <p className="text-sm font-semibold text-slate-950">{category.label}</p>
       <p className="mt-1 text-sm text-slate-600">
         {formatCurrency(category.amount)} · {category.count}{" "}
@@ -48,12 +48,12 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
   const topCategory = data[0];
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-dashboard-card sm:p-6">
+    <section className="rounded-[1.5rem] border border-white/70 bg-white/95 p-5 shadow-dashboard-card sm:p-6">
       <div>
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
           Visualization
         </p>
-        <h2 className="mt-2 text-xl font-semibold text-slate-950">
+        <h2 className="mt-2 text-2xl font-semibold text-slate-950">
           Category split
         </h2>
         <p className="mt-2 text-sm leading-6 text-slate-500">
@@ -63,7 +63,7 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
 
       {hasData ? (
         <>
-          <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
             <div className="flex flex-col gap-1">
               <p className="text-sm font-medium text-slate-500">
                 Top category
@@ -79,7 +79,7 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
             </div>
           </div>
 
-          <div className="relative mt-5 h-72 overflow-hidden">
+          <div className="relative mt-5 h-80 overflow-hidden rounded-2xl bg-white">
             <ResponsiveContainer height="100%" width="100%">
               <PieChart>
                 <Pie
@@ -87,9 +87,9 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
                   cy="50%"
                   data={data}
                   dataKey="amount"
-                  innerRadius={76}
+                  innerRadius={82}
                   nameKey="label"
-                  outerRadius={104}
+                  outerRadius={116}
                   paddingAngle={3}
                   strokeWidth={0}
                 >
@@ -119,7 +119,7 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
             </div>
           </div>
 
-          <div className="mt-4 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-dashboard-soft">
+          <div className="mt-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-dashboard-soft">
             <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
               <p className="text-sm font-medium text-slate-500">
                 Visible total
@@ -161,7 +161,7 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
             action={
               hasActiveFilters ? (
                 <button
-                  className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                  className="min-h-11 rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
                   onClick={onClearFilters}
                   type="button"
                 >

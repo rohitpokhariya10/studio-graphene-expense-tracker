@@ -105,12 +105,12 @@ const BudgetTracker = ({ expenses }) => {
   }, []);
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-dashboard-card sm:p-6">
+    <section className="rounded-[1.5rem] border border-white/70 bg-white/95 p-5 shadow-dashboard-card sm:p-6">
       <div className="flex flex-col gap-2">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
           Bonus
         </p>
-        <h2 className="text-xl font-semibold text-slate-950">
+        <h2 className="text-2xl font-semibold text-slate-950">
           Category budgets
         </h2>
         <p className="text-sm leading-6 text-slate-500">
@@ -119,13 +119,13 @@ const BudgetTracker = ({ expenses }) => {
       </div>
 
       {error ? (
-        <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+        <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
           {error}
         </div>
       ) : null}
 
-      <form className="mt-5 space-y-3" onSubmit={handleSubmit}>
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+      <form className="mt-5 space-y-4" onSubmit={handleSubmit}>
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
           {EXPENSE_CATEGORIES.map((category) => {
             const budget = Number(budgetValues[category.value] || 0);
             const spent = spendByCategory[category.value] ?? 0;
@@ -138,7 +138,11 @@ const BudgetTracker = ({ expenses }) => {
 
             return (
               <div
-                className="rounded-xl border border-slate-200 bg-slate-50 p-4"
+                className={`rounded-2xl border p-4 transition hover:-translate-y-0.5 hover:shadow-dashboard-soft ${
+                  isOverBudget
+                    ? "border-red-200 bg-red-50/70"
+                    : "border-slate-200 bg-slate-50/80"
+                }`}
                 key={category.value}
               >
                 <div className="flex items-start justify-between gap-3">
@@ -149,13 +153,15 @@ const BudgetTracker = ({ expenses }) => {
                     >
                       {category.label}
                     </label>
-                    <p className="mt-1 text-xs text-slate-500">
+                    <p className="mt-1 text-xs font-medium text-slate-500">
                       {formatCurrency(spent)} spent this month
                     </p>
                   </div>
                   <p
-                    className={`shrink-0 text-sm font-semibold ${
-                      isOverBudget ? "text-red-700" : "text-emerald-700"
+                    className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold ${
+                      isOverBudget
+                        ? "bg-red-100 text-red-700"
+                        : "bg-emerald-50 text-emerald-700"
                     }`}
                   >
                     {hasBudget
@@ -167,7 +173,7 @@ const BudgetTracker = ({ expenses }) => {
                 </div>
 
                 <input
-                  className="mt-3 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 shadow-sm shadow-slate-200/40 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="mt-3 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-950 shadow-sm shadow-slate-200/40 outline-none transition hover:border-slate-300 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-100"
                   disabled={isLoading || isSaving}
                   id={`budget-${category.value}`}
                   min="0"
@@ -179,9 +185,9 @@ const BudgetTracker = ({ expenses }) => {
                   value={budgetValues[category.value]}
                 />
 
-                <div className="mt-3 h-2 rounded-full bg-slate-200">
+                <div className="mt-3 h-2.5 rounded-full bg-slate-200">
                   <div
-                    className={`h-2 rounded-full transition-all ${
+                    className={`h-2.5 rounded-full transition-all ${
                       isOverBudget ? "bg-red-600" : "bg-emerald-600"
                     }`}
                     style={{ width: `${progress}%` }}
@@ -203,7 +209,7 @@ const BudgetTracker = ({ expenses }) => {
             </p>
           )}
           <button
-            className="rounded-xl bg-slate-950 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+            className="min-h-12 rounded-2xl bg-slate-950 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-300 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:hover:translate-y-0"
             disabled={isLoading || isSaving}
             type="submit"
           >
