@@ -67,18 +67,18 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
               <p className="text-sm font-medium text-slate-500">
                 Top category
               </p>
-              <div className="flex items-baseline justify-between gap-4">
-                <p className="text-lg font-semibold text-slate-950">
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+                <p className="min-w-0 truncate text-lg font-semibold text-slate-950">
                   {topCategory.label}
                 </p>
-                <p className="text-sm font-semibold text-slate-700">
+                <p className="max-w-full break-words text-sm font-semibold text-slate-700 sm:text-right">
                   {formatCurrency(topCategory.amount)}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="relative mt-5 h-72">
+          <div className="relative mt-5 h-72 overflow-hidden">
             <ResponsiveContainer height="100%" width="100%">
               <PieChart>
                 <Pie
@@ -86,9 +86,9 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
                   cy="50%"
                   data={data}
                   dataKey="amount"
-                  innerRadius={58}
+                  innerRadius={76}
                   nameKey="label"
-                  outerRadius={88}
+                  outerRadius={104}
                   paddingAngle={3}
                   strokeWidth={0}
                 >
@@ -102,11 +102,11 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
                 <Tooltip content={<CategoryTooltip />} />
               </PieChart>
             </ResponsiveContainer>
-            <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
+            <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-16 text-center">
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Total
               </p>
-              <p className="mt-1 text-lg font-semibold text-slate-950">
+              <p className="mt-1 max-w-36 break-words text-[clamp(0.95rem,4vw,1.2rem)] font-semibold leading-tight text-slate-950">
                 {formatCurrency(totalAmount)}
               </p>
             </div>
