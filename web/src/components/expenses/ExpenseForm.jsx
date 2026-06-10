@@ -41,16 +41,16 @@ const validateForm = (values) => {
 };
 
 const inputClasses =
-  "mt-2 w-full rounded-xl border border-slate-300 bg-white px-3.5 py-3 text-sm text-slate-950 shadow-sm shadow-slate-200/40 outline-none transition placeholder:text-slate-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100";
+  "mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-3.5 text-sm text-slate-950 shadow-sm shadow-slate-200/40 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-emerald-600 focus:bg-white focus:ring-4 focus:ring-emerald-100";
 
-const labelClasses = "text-sm font-medium text-slate-700";
+const labelClasses = "text-sm font-semibold text-slate-700";
 
 const FieldError = ({ message }) => {
   if (!message) {
     return null;
   }
 
-  return <p className="mt-2 text-sm text-red-600">{message}</p>;
+  return <p className="mt-2 text-sm font-medium text-red-600">{message}</p>;
 };
 
 const getFormValuesFromExpense = (expense) => ({
@@ -143,16 +143,24 @@ const ExpenseForm = ({ editingExpense, onCancelEdit, onExpenseSaved }) => {
   };
 
   return (
-    <form className="space-y-5" onSubmit={handleSubmit}>
-      <div>
-        <h2 className="text-2xl font-semibold tracking-tight text-slate-950">
+    <form className="space-y-6" onSubmit={handleSubmit}>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
+            Capture
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
           {isEditing ? "Edit expense" : "Add expense"}
-        </h2>
-        <p className="mt-2 text-sm leading-6 text-slate-500">
-          {isEditing
-            ? "Update the selected entry while keeping the record consistent."
-            : "Keep each entry simple, accurate, and easy to reconcile later."}
-        </p>
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
+            {isEditing
+              ? "Update the selected entry while keeping the record consistent."
+              : "Keep each entry simple, accurate, and easy to reconcile later."}
+          </p>
+        </div>
+        <span className="w-fit rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+          {isEditing ? "Editing mode" : "New record"}
+        </span>
       </div>
 
       {submitState ? (
@@ -183,7 +191,7 @@ const ExpenseForm = ({ editingExpense, onCancelEdit, onExpenseSaved }) => {
         <FieldError message={errors.title} />
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-5 md:grid-cols-2">
         <div>
           <label className={labelClasses} htmlFor="amount">
             Amount
@@ -244,7 +252,7 @@ const ExpenseForm = ({ editingExpense, onCancelEdit, onExpenseSaved }) => {
           Note
         </label>
         <textarea
-          className={`${inputClasses} min-h-28 resize-y`}
+          className={`${inputClasses} min-h-32 resize-y`}
           id="note"
           maxLength={240}
           name="note"
@@ -260,9 +268,9 @@ const ExpenseForm = ({ editingExpense, onCancelEdit, onExpenseSaved }) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="flex flex-col gap-3 border-t border-slate-100 pt-2 sm:flex-row">
         <button
-          className="inline-flex w-full items-center justify-center rounded-xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-dashboard-soft transition hover:-translate-y-0.5 hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300 sm:w-auto"
+          className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-dashboard-soft transition hover:-translate-y-0.5 hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-300 disabled:cursor-not-allowed disabled:bg-slate-300 sm:w-auto"
           disabled={isSubmitting}
           type="submit"
         >
@@ -276,7 +284,7 @@ const ExpenseForm = ({ editingExpense, onCancelEdit, onExpenseSaved }) => {
         </button>
         {isEditing ? (
           <button
-            className="inline-flex w-full items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 sm:w-auto"
+            className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200 sm:w-auto"
             onClick={onCancelEdit}
             type="button"
           >
