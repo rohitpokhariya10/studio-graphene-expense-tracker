@@ -5,6 +5,20 @@ const apiClient = axios.create({
   timeout: 10000,
 });
 
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.code === "ECONNABORTED") {
+      error.userMessage = "API request timed out. Please check the backend URL.";
+    } else if (!error.response) {
+      error.userMessage =
+        "Cannot reach the API. Check deployed API URL, HTTPS, and CORS settings.";
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 export const createExpense = async (payload) => {
   const { data } = await apiClient.post("/expenses", payload);
   return data;

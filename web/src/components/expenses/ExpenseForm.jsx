@@ -134,6 +134,7 @@ const ExpenseForm = ({ editingExpense, onCancelEdit, onExpenseSaved }) => {
         type: "error",
         message:
           error.response?.data?.message ??
+          error.userMessage ??
           `Unable to ${isEditing ? "update" : "create"} expense. Please try again.`,
       });
     } finally {

@@ -22,6 +22,7 @@ export const useExpenses = ({ category, endDate, startDate } = {}) => {
     } catch (requestError) {
       setError(
         requestError.response?.data?.message ??
+          requestError.userMessage ??
           "Unable to load expenses. Please try again."
       );
     } finally {

@@ -65,6 +65,7 @@ const App = () => {
     } catch (requestError) {
       setDeleteError(
         requestError.response?.data?.message ??
+          requestError.userMessage ??
           "Unable to delete expense. Please try again."
       );
     } finally {
