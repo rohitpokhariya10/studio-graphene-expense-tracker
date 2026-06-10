@@ -74,57 +74,57 @@ const App = () => {
   };
 
   return (
-    <main className="min-h-screen text-slate-950">
-      <section className="mx-auto flex w-full max-w-[1440px] flex-col gap-7 px-4 py-6 sm:gap-8 sm:px-6 sm:py-8 lg:px-8">
-        <header className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-dashboard-card">
-          <div className="border-b border-slate-200 bg-slate-950 px-5 py-4 text-white sm:px-6">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <main className="min-h-screen overflow-x-hidden text-slate-950">
+      <section className="mx-auto flex w-full max-w-[1920px] flex-col gap-6 px-4 py-5 sm:gap-7 sm:px-6 sm:py-7 lg:px-8 xl:px-10 2xl:px-12">
+        <header className="overflow-hidden rounded-[1.75rem] border border-white/70 bg-white/90 shadow-dashboard-card backdrop-blur">
+          <div className="border-b border-slate-800 bg-slate-950 px-5 py-4 text-white sm:px-7">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
-                <span className="size-2.5 rounded-full bg-emerald-400 shadow-[0_0_0_5px_rgba(16,185,129,0.16)]" />
+                <span className="size-3 rounded-full bg-emerald-400 shadow-[0_0_0_7px_rgba(16,185,129,0.16)]" />
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
                   Live finance workspace
                 </p>
               </div>
-              <p className="text-sm font-medium text-slate-300">
+              <p className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm font-medium text-slate-200">
                 {summary.monthLabel} · {summary.totalCount}{" "}
                 {summary.totalCount === 1 ? "entry" : "entries"}
               </p>
             </div>
           </div>
-          <div className="flex flex-col gap-6 px-5 py-6 sm:px-6 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
-              Workspace
-            </p>
-            <h1 className="mt-2 text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl">
-              Expense tracker
-            </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-              Record spending with clear categorization and reliable validation.
-            </p>
-          </div>
-            <div className="grid w-full gap-3 sm:grid-cols-3 lg:w-auto lg:min-w-[440px]">
-              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+          <div className="grid gap-7 px-5 py-7 sm:px-7 lg:grid-cols-[minmax(0,1fr)_minmax(520px,0.58fr)] lg:items-end xl:gap-10">
+            <div className="max-w-4xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
+                Workspace
+              </p>
+              <h1 className="mt-3 text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl lg:text-6xl">
+                Expense tracker
+              </h1>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
+                Record spending, compare categories, and keep budget decisions visible across every device.
+              </p>
+            </div>
+            <div className="grid w-full gap-3 sm:grid-cols-3">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/90 px-4 py-4 shadow-dashboard-soft">
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                   Status
                 </p>
-                <p className="mt-1 text-sm font-semibold text-slate-950">
+                <p className="mt-2 text-base font-semibold text-slate-950">
                   Ready to capture
                 </p>
               </div>
-              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/90 px-4 py-4 shadow-dashboard-soft">
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                   Visible spend
                 </p>
-                <p className="mt-1 text-sm font-semibold text-slate-950">
+                <p className="mt-2 text-base font-semibold text-slate-950">
                   {summary.totalCount} records
                 </p>
               </div>
-              <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3">
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 shadow-dashboard-soft">
                 <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
                   Insights
                 </p>
-                <p className="mt-1 text-sm font-semibold text-emerald-950">
+                <p className="mt-2 text-base font-semibold text-emerald-950">
                   Active
                 </p>
               </div>
@@ -132,9 +132,9 @@ const App = () => {
           </div>
         </header>
 
-        <div className="grid items-start gap-7 xl:grid-cols-[minmax(0,1fr)_420px]">
-          <div className="space-y-7">
-            <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-dashboard-card sm:p-6">
+        <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(420px,0.72fr)] 2xl:grid-cols-[minmax(0,1.65fr)_minmax(460px,0.65fr)]">
+          <div className="min-w-0 space-y-6">
+            <section className="rounded-[1.5rem] border border-white/70 bg-white/95 p-5 shadow-dashboard-card sm:p-6 lg:p-7">
               <ExpenseForm
                 editingExpense={editingExpense}
                 onCancelEdit={() => setEditingExpense(null)}
@@ -174,7 +174,7 @@ const App = () => {
             />
           </div>
 
-          <aside className="space-y-5 xl:sticky xl:top-6 xl:self-start">
+          <aside className="min-w-0 space-y-5 xl:sticky xl:top-6 xl:self-start">
             <SummaryPanel summary={summary} />
             <BudgetTracker expenses={expenses} />
             <CategoryPieChart
