@@ -79,7 +79,7 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
             </div>
           </div>
 
-          <div className="relative mt-5 h-80 overflow-hidden rounded-2xl bg-white">
+          <div className="relative mt-5 h-64 overflow-hidden rounded-2xl bg-white sm:h-72 lg:h-80">
             <ResponsiveContainer height="100%" width="100%">
               <PieChart>
                 <Pie
@@ -87,9 +87,9 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
                   cy="50%"
                   data={data}
                   dataKey="amount"
-                  innerRadius={82}
+                  innerRadius="43%"
                   nameKey="label"
-                  outerRadius={116}
+                  outerRadius="66%"
                   paddingAngle={3}
                   strokeWidth={0}
                 >
@@ -108,11 +108,11 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
                 />
               </PieChart>
             </ResponsiveContainer>
-            <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-16 text-center">
+            <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-12 text-center">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Total
               </p>
-              <p className="mt-1 text-lg font-semibold leading-tight text-slate-950">
+              <p className="mt-1 text-base font-semibold leading-tight text-slate-950 sm:text-lg">
                 {categoryCount}{" "}
                 {categoryCount === 1 ? "category" : "categories"}
               </p>

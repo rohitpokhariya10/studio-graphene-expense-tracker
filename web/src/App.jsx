@@ -17,11 +17,11 @@ import {
 import { formatCurrency, formatDate } from "./utils/formatters.js";
 
 const navigationItems = [
-  { id: "dashboard", label: "Dashboard" },
-  { id: "add", label: "Add transaction" },
-  { id: "transactions", label: "Transactions" },
-  { id: "budgets", label: "Budgets" },
-  { id: "analytics", label: "Analytics" },
+  { id: "dashboard", label: "Dashboard", shortLabel: "Home" },
+  { id: "add", label: "Add transaction", shortLabel: "Add" },
+  { id: "transactions", label: "Transactions", shortLabel: "Records" },
+  { id: "budgets", label: "Budgets", shortLabel: "Budget" },
+  { id: "analytics", label: "Analytics", shortLabel: "Reports" },
 ];
 
 const sectionTitles = {
@@ -300,7 +300,7 @@ const App = () => {
   return (
     <main className="min-h-screen overflow-x-hidden text-slate-950">
       <div className="flex min-h-screen">
-        <aside className="hidden w-72 shrink-0 border-r border-slate-200/80 bg-white/90 px-5 py-6 shadow-dashboard-soft backdrop-blur xl:sticky xl:top-0 xl:block xl:h-screen">
+        <aside className="hidden w-64 shrink-0 border-r border-slate-200/80 bg-white/90 px-4 py-6 shadow-dashboard-soft backdrop-blur xl:sticky xl:top-0 xl:block xl:h-screen 2xl:w-72 2xl:px-5">
           <div className="flex items-center gap-3">
             <div className="flex size-11 items-center justify-center rounded-2xl bg-slate-950 text-base font-semibold text-white">
               ET
@@ -397,14 +397,14 @@ const App = () => {
             ) : null}
           </header>
 
-          <section className="flex w-full flex-col gap-6 px-4 pb-24 pt-5 sm:gap-7 sm:px-6 sm:py-7 lg:px-8 xl:px-10 xl:pb-8 2xl:px-12">
+          <section className="flex w-full flex-col gap-6 px-3 pb-24 pt-4 sm:gap-7 sm:px-6 sm:py-7 lg:px-8 xl:px-8 xl:pb-8 2xl:px-10">
             <header className="rounded-[1.75rem] border border-white/70 bg-white/90 p-5 shadow-dashboard-card backdrop-blur sm:p-7">
               <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
                 <div className="max-w-3xl">
                   <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
                     {activeSectionMeta.eyebrow}
                   </p>
-                  <h1 className="mt-3 text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
+                  <h1 className="mt-3 text-3xl font-semibold leading-tight text-slate-950 sm:text-5xl">
                     {activeSectionMeta.title}
                   </h1>
                   <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
@@ -608,7 +608,7 @@ const App = () => {
                   </div>
                 </section>
 
-                <div className="grid gap-6 xl:grid-cols-[minmax(360px,0.68fr)_minmax(0,1fr)]">
+                <div className="grid gap-6 2xl:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
                   <SummaryPanel summary={summary} />
                   <CategoryPieChart
                     data={categoryBreakdown}
@@ -621,12 +621,12 @@ const App = () => {
           </section>
 
           <nav
-            className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-5 gap-1 rounded-[1.35rem] border border-slate-200 bg-white/95 p-1.5 shadow-xl shadow-slate-950/15 backdrop-blur xl:hidden"
+            className="fixed inset-x-2 bottom-2 z-40 grid grid-cols-5 gap-1 rounded-[1.25rem] border border-slate-200 bg-white/95 p-1.5 shadow-xl shadow-slate-950/15 backdrop-blur xl:hidden"
             aria-label="Quick section navigation"
           >
             {navigationItems.map((item) => (
               <button
-                className={`min-h-12 rounded-2xl px-1.5 py-2 text-center text-[0.68rem] font-semibold transition focus:outline-none focus:ring-4 focus:ring-slate-200 sm:text-xs ${
+                className={`min-h-12 min-w-0 rounded-2xl px-1 py-2 text-center text-[0.68rem] font-semibold leading-tight transition focus:outline-none focus:ring-4 focus:ring-slate-200 sm:text-xs ${
                   activeSection === item.id
                     ? "bg-slate-950 text-white"
                     : "text-slate-600 hover:bg-slate-100"
@@ -635,7 +635,7 @@ const App = () => {
                 onClick={() => navigateTo(item.id)}
                 type="button"
               >
-                {item.id === "transactions" ? "Records" : item.label}
+                <span className="block truncate">{item.shortLabel}</span>
               </button>
             ))}
           </nav>
