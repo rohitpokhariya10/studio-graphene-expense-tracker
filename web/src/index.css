@@ -16,6 +16,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at top left, rgba(16, 185, 129, 0.09), transparent 32rem),
     linear-gradient(180deg, #f8fafc 0%, #eef4f1 100%);
@@ -24,6 +25,11 @@ body {
     "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  width: 100%;
 }
 
 button,
