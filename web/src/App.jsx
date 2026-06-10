@@ -75,7 +75,7 @@ const App = () => {
 
   return (
     <main className="min-h-screen overflow-x-hidden text-slate-950">
-      <section className="mx-auto flex w-full max-w-[1920px] flex-col gap-6 px-4 py-5 sm:gap-7 sm:px-6 sm:py-7 lg:px-8 xl:px-10 2xl:px-12">
+      <section className="flex w-full flex-col gap-6 px-4 py-5 sm:gap-7 sm:px-6 sm:py-7 lg:px-8 xl:px-10 2xl:px-12">
         <header className="overflow-hidden rounded-[1.75rem] border border-white/70 bg-white/90 shadow-dashboard-card backdrop-blur">
           <div className="border-b border-slate-800 bg-slate-950 px-5 py-4 text-white sm:px-7">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
