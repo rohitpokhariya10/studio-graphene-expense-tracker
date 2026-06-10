@@ -414,7 +414,7 @@ const App = () => {
 
             {activeSection === "dashboard" ? (
               <div className="space-y-6">
-                <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                   <MetricCard
                     accent="emerald"
                     helper="Total across the currently visible transaction set."
@@ -590,7 +590,7 @@ const App = () => {
                   </div>
                 </section>
 
-                <div className="grid gap-6 2xl:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
+                <div className="grid gap-6 xl:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]">
                   <SummaryPanel summary={summary} />
                   <CategoryPieChart
                     data={categoryBreakdown}
