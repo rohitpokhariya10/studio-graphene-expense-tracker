@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { env } from "./config/env.js";
+import budgetRoutes from "./routes/budget.routes.js";
 import expenseRoutes from "./routes/expense.routes.js";
 
 const app = express();
@@ -26,6 +27,7 @@ app.get("/api/v1/health", (req, res) => {
 });
 
 // Routes
+app.use("/api/v1/budgets", budgetRoutes);
 app.use("/api/v1/expenses", expenseRoutes);
 
 // 404 Handler

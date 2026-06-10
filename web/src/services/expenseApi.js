@@ -38,3 +38,5 @@ export const deleteExpense = async (expenseId) => {
   const { data } = await apiClient.delete(`/expenses/${expenseId}`);
   return data;
 };
+
+export default apiClient;

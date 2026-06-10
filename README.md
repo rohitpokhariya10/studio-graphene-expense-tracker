@@ -124,6 +124,8 @@ GET http://localhost:5050/api/v1/health
 
 ```txt
 GET    /api/v1/health
+GET    /api/v1/budgets
+PUT    /api/v1/budgets
 GET    /api/v1/expenses
 POST   /api/v1/expenses
 PUT    /api/v1/expenses/:id
@@ -152,6 +154,87 @@ Success response:
   "success": true,
   "message": "Expense Tracker API is healthy",
   "timestamp": "2026-06-10T10:30:00.000Z"
+}
+```
+
+### Get Budgets
+
+```txt
+GET /api/v1/budgets
+```
+
+Request body: not required.
+
+Success response:
+
+```json
+{
+  "success": true,
+  "message": "Budgets fetched successfully",
+  "data": [
+    {
+      "category": "food",
+      "amount": 5000
+    },
+    {
+      "category": "transport",
+      "amount": 2000
+    }
+  ]
+}
+```
+
+### Update Budgets
+
+```txt
+PUT /api/v1/budgets
+```
+
+Request body:
+
+```json
+{
+  "budgets": [
+    {
+      "category": "food",
+      "amount": 5000
+    },
+    {
+      "category": "transport",
+      "amount": 2000
+    }
+  ]
+}
+```
+
+Success response:
+
+```json
+{
+  "success": true,
+  "message": "Budgets updated successfully",
+  "data": [
+    {
+      "category": "food",
+      "amount": 5000
+    },
+    {
+      "category": "transport",
+      "amount": 2000
+    }
+  ]
+}
+```
+
+Validation error response:
+
+```json
+{
+  "success": false,
+  "message": "Budget validation failed",
+  "details": {
+    "budgets.0.amount": "Budget amount must be zero or greater"
+  }
 }
 ```
 

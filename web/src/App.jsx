@@ -176,7 +176,7 @@ const App = () => {
 
           <aside className="space-y-5 xl:sticky xl:top-6 xl:self-start">
             <SummaryPanel summary={summary} />
-            <BudgetTracker monthlyTotal={summary.monthlyTotal} />
+            <BudgetTracker expenses={expenses} />
             <CategoryPieChart
               data={categoryBreakdown}
               hasActiveFilters={hasActiveFilters}
