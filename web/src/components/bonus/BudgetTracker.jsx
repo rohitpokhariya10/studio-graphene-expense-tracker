@@ -125,7 +125,7 @@ const BudgetTracker = ({ expenses }) => {
       ) : null}
 
       <form className="mt-5 space-y-4" onSubmit={handleSubmit}>
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {EXPENSE_CATEGORIES.map((category) => {
             const budget = Number(budgetValues[category.value] || 0);
             const spent = spendByCategory[category.value] ?? 0;

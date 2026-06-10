@@ -552,19 +552,70 @@ const App = () => {
             ) : null}
 
             {activeSection === "budgets" ? (
-              <div className="max-w-6xl">
+              <div className="space-y-6">
+                <section className="rounded-[1.5rem] border border-emerald-200 bg-emerald-50 p-5 shadow-dashboard-card sm:p-6">
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-700">
+                        Budget health
+                      </p>
+                      <h2 className="mt-2 text-2xl font-semibold text-emerald-950">
+                        Category limits for this month
+                      </h2>
+                      <p className="mt-2 max-w-3xl text-sm leading-6 text-emerald-800">
+                        Budgets are saved to the shared workspace and compared
+                        against the current month&apos;s category spend.
+                      </p>
+                    </div>
+                    <p className="rounded-full border border-emerald-300 bg-white/70 px-4 py-2 text-sm font-semibold text-emerald-800">
+                      {EXPENSE_CATEGORIES.length} categories
+                    </p>
+                  </div>
+                </section>
                 <BudgetTracker expenses={expenses} />
               </div>
             ) : null}
 
             {activeSection === "analytics" ? (
-              <div className="grid gap-6 xl:grid-cols-[minmax(360px,0.72fr)_minmax(0,1fr)]">
-                <SummaryPanel summary={summary} />
-                <CategoryPieChart
-                  data={categoryBreakdown}
-                  hasActiveFilters={hasActiveFilters}
-                  onClearFilters={clearFilters}
-                />
+              <div className="space-y-6">
+                <section className="grid gap-4 rounded-[1.5rem] border border-white/70 bg-white/95 p-5 shadow-dashboard-card sm:p-6 lg:grid-cols-3">
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">
+                      Categories
+                    </p>
+                    <p className="mt-2 text-3xl font-semibold text-slate-950">
+                      {categoryBreakdown.length}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">
+                      Top category
+                    </p>
+                    <p className="mt-2 text-2xl font-semibold text-slate-950">
+                      {categoryBreakdown[0]?.label ?? "None"}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">
+                      Report basis
+                    </p>
+                    <p className="mt-2 text-base font-semibold text-slate-950">
+                      {hasActiveFilters ? "Filtered data" : "All visible data"}
+                    </p>
+                    <p className="mt-1 text-sm text-slate-500">
+                      Charts use the same records as the transaction table.
+                    </p>
+                  </div>
+                </section>
+
+                <div className="grid gap-6 xl:grid-cols-[minmax(360px,0.68fr)_minmax(0,1fr)]">
+                  <SummaryPanel summary={summary} />
+                  <CategoryPieChart
+                    data={categoryBreakdown}
+                    hasActiveFilters={hasActiveFilters}
+                    onClearFilters={clearFilters}
+                  />
+                </div>
               </div>
             ) : null}
           </section>
