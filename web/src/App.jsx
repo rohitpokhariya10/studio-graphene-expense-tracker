@@ -304,18 +304,18 @@ const App = () => {
           <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 px-4 py-3 shadow-sm shadow-slate-950/5 backdrop-blur-xl sm:px-6 lg:px-8">
             <div className="flex items-center justify-between gap-3">
               <button
-                className="flex items-center gap-3 rounded-2xl text-left focus:outline-none focus:ring-4 focus:ring-slate-200"
+                className="flex min-w-0 items-center gap-3 rounded-2xl text-left focus:outline-none focus:ring-4 focus:ring-slate-200"
                 onClick={() => navigateTo("dashboard")}
                 type="button"
               >
                 <span className="flex size-10 items-center justify-center rounded-2xl bg-slate-950 text-sm font-semibold text-white">
                   ET
                 </span>
-                <span>
-                  <span className="block text-sm font-semibold text-slate-950">
+                <span className="min-w-0">
+                  <span className="block truncate text-sm font-semibold text-slate-950">
                     Expense Tracker
                   </span>
-                  <span className="block text-xs font-medium text-slate-500">
+                  <span className="block truncate text-xs font-medium text-slate-500">
                     {activeSectionMeta.title}
                   </span>
                 </span>
@@ -625,7 +625,7 @@ const App = () => {
       </div>
 
       {deleteError ? (
-        <div className="fixed bottom-4 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700 shadow-lg">
+        <div className="fixed bottom-20 left-1/2 z-50 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700 shadow-lg xl:bottom-4">
           {deleteError}
         </div>
       ) : null}
