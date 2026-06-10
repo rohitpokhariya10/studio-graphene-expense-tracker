@@ -6,7 +6,10 @@ import {
   Tooltip,
 } from "recharts";
 import EmptyState from "../common/EmptyState.jsx";
-import { formatCurrency } from "../../utils/formatters.js";
+import {
+  formatCompactCurrency,
+  formatCurrency,
+} from "../../utils/formatters.js";
 
 const CHART_COLORS = [
   "#059669",
@@ -72,8 +75,11 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
                 <p className="min-w-0 truncate text-lg font-semibold text-slate-950">
                   {topCategory.label}
                 </p>
-                <p className="max-w-full break-words text-sm font-semibold text-slate-700 sm:text-right">
-                  {formatCurrency(topCategory.amount)}
+                <p
+                  className="max-w-full truncate text-sm font-semibold text-slate-700 sm:text-right"
+                  title={formatCurrency(topCategory.amount)}
+                >
+                  {formatCompactCurrency(topCategory.amount)}
                 </p>
               </div>
             </div>
@@ -124,8 +130,11 @@ const CategoryPieChart = ({ data, hasActiveFilters, onClearFilters }) => {
               <p className="text-sm font-medium text-slate-500">
                 Visible total
               </p>
-              <p className="max-w-full break-words text-lg font-semibold leading-tight text-slate-950 sm:text-right">
-                {formatCurrency(totalAmount)}
+              <p
+                className="max-w-full truncate text-lg font-semibold leading-tight text-slate-950 sm:text-right"
+                title={formatCurrency(totalAmount)}
+              >
+                {formatCompactCurrency(totalAmount)}
               </p>
             </div>
           </div>

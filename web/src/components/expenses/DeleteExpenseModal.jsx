@@ -1,4 +1,8 @@
-import { formatCurrency, formatDate } from "../../utils/formatters.js";
+import {
+  formatCompactCurrency,
+  formatCurrency,
+  formatDate,
+} from "../../utils/formatters.js";
 
 const DeleteExpenseModal = ({
   expense,
@@ -46,8 +50,11 @@ const DeleteExpenseModal = ({
                 {formatDate(expense.date)}
               </p>
             </div>
-            <p className="text-sm font-semibold text-slate-950">
-              {formatCurrency(expense.amount)}
+            <p
+              className="text-sm font-semibold text-slate-950"
+              title={formatCurrency(expense.amount)}
+            >
+              {formatCompactCurrency(expense.amount)}
             </p>
           </div>
         </div>

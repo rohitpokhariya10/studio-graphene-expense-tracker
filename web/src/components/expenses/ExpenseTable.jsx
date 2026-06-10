@@ -1,6 +1,10 @@
 import EmptyState from "../common/EmptyState.jsx";
 import { EXPENSE_CATEGORIES } from "../../constants/expenseCategories.js";
-import { formatCurrency, formatDate } from "../../utils/formatters.js";
+import {
+  formatCompactCurrency,
+  formatCurrency,
+  formatDate,
+} from "../../utils/formatters.js";
 
 const categoryLabels = EXPENSE_CATEGORIES.reduce((labels, category) => {
   labels[category.value] = category.label;
@@ -145,8 +149,11 @@ const ExpenseTable = ({
                       <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-slate-400 lg:hidden">
                         Amount
                       </p>
-                      <p className="text-left text-base font-semibold text-slate-950 lg:text-right">
-                        {formatCurrency(expense.amount)}
+                      <p
+                        className="text-left text-base font-semibold text-slate-950 lg:text-right"
+                        title={formatCurrency(expense.amount)}
+                      >
+                        {formatCompactCurrency(expense.amount)}
                       </p>
                     </div>
                   </div>

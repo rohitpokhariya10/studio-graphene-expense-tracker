@@ -14,7 +14,11 @@ import {
   getCategoryBreakdown,
   getExpenseSummary,
 } from "./utils/analytics.js";
-import { formatCurrency, formatDate } from "./utils/formatters.js";
+import {
+  formatCompactCurrency,
+  formatCurrency,
+  formatDate,
+} from "./utils/formatters.js";
 
 const navigationItems = [
   { id: "dashboard", label: "Dashboard", shortLabel: "Home" },
@@ -56,7 +60,7 @@ const getCategoryLabel = (categoryValue) =>
   EXPENSE_CATEGORIES.find((category) => category.value === categoryValue)
     ?.label ?? categoryValue;
 
-const MetricCard = ({ accent = "slate", helper, label, value }) => {
+const MetricCard = ({ accent = "slate", fullValue, helper, label, value }) => {
   const accentClasses = {
     emerald: "border-emerald-200 bg-emerald-50 text-emerald-700",
     red: "border-red-200 bg-red-50 text-red-700",
@@ -68,7 +72,10 @@ const MetricCard = ({ accent = "slate", helper, label, value }) => {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-slate-500">{label}</p>
-          <p className="mt-3 break-words text-3xl font-semibold leading-tight text-slate-950">
+          <p
+            className="mt-3 max-w-full truncate text-3xl font-semibold leading-tight text-slate-950"
+            title={fullValue ?? value}
+          >
             {value}
           </p>
         </div>
@@ -122,8 +129,11 @@ const RecentTransactionsPreview = ({ expenses, onViewAll }) => {
                   {formatDate(expense.date)}
                 </p>
               </div>
-              <p className="text-base font-semibold text-slate-950">
-                {formatCurrency(expense.amount)}
+              <p
+                className="text-base font-semibold text-slate-950"
+                title={formatCurrency(expense.amount)}
+              >
+                {formatCompactCurrency(expense.amount)}
               </p>
             </article>
           ))
@@ -169,8 +179,11 @@ const CategoryPreview = ({ categoryBreakdown, onOpenAnalytics }) => {
                 <p className="text-sm font-semibold text-slate-700">
                   {category.label}
                 </p>
-                <p className="text-sm font-semibold text-slate-950">
-                  {formatCurrency(category.amount)}
+                <p
+                  className="text-sm font-semibold text-slate-950"
+                  title={formatCurrency(category.amount)}
+                >
+                  {formatCompactCurrency(category.amount)}
                 </p>
               </div>
               <div className="mt-2 h-2 rounded-full bg-slate-200">
@@ -419,12 +432,14 @@ const App = () => {
                     accent="emerald"
                     helper="Total across the currently visible transaction set."
                     label="Visible spend"
-                    value={formatCurrency(summary.totalAmount)}
+                    fullValue={formatCurrency(summary.totalAmount)}
+                    value={formatCompactCurrency(summary.totalAmount)}
                   />
                   <MetricCard
                     helper={`Current month: ${summary.monthLabel}`}
                     label="Monthly spending"
-                    value={formatCurrency(summary.monthlyTotal)}
+                    fullValue={formatCurrency(summary.monthlyTotal)}
+                    value={formatCompactCurrency(summary.monthlyTotal)}
                   />
                   <MetricCard
                     helper="Records returned by filters and saved data."
@@ -439,7 +454,10 @@ const App = () => {
                         : "Add expenses to reveal the largest spend."
                     }
                     label="Highest expense"
-                    value={formatCurrency(summary.highestExpense?.amount ?? 0)}
+                    fullValue={formatCurrency(summary.highestExpense?.amount ?? 0)}
+                    value={formatCompactCurrency(
+                      summary.highestExpense?.amount ?? 0
+                    )}
                   />
                 </div>
 
@@ -483,8 +501,11 @@ const App = () => {
                     <p className="text-sm font-medium text-slate-500">
                       Visible value
                     </p>
-                    <p className="mt-2 text-3xl font-semibold text-slate-950">
-                      {formatCurrency(summary.totalAmount)}
+                    <p
+                      className="mt-2 max-w-full truncate text-3xl font-semibold text-slate-950"
+                      title={formatCurrency(summary.totalAmount)}
+                    >
+                      {formatCompactCurrency(summary.totalAmount)}
                     </p>
                   </div>
                   <div>

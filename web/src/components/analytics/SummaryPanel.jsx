@@ -1,9 +1,16 @@
-import { formatCurrency, formatDate } from "../../utils/formatters.js";
+import {
+  formatCompactCurrency,
+  formatCurrency,
+  formatDate,
+} from "../../utils/formatters.js";
 
-const SummaryCard = ({ label, value, helper }) => (
+const SummaryCard = ({ fullValue, label, value, helper }) => (
   <article className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-dashboard-soft transition hover:-translate-y-0.5 hover:shadow-dashboard-card">
     <p className="text-sm font-medium text-slate-500">{label}</p>
-    <p className="mt-2 max-w-full break-words text-[clamp(1.75rem,4vw,2.15rem)] font-semibold leading-tight text-slate-950">
+    <p
+      className="mt-2 max-w-full truncate text-[clamp(1.75rem,4vw,2.15rem)] font-semibold leading-tight text-slate-950"
+      title={fullValue ?? value}
+    >
       {value}
     </p>
     <p className="mt-3 text-sm leading-5 text-slate-500">{helper}</p>
@@ -23,8 +30,11 @@ const MonthlyTotalCard = ({ monthLabel, monthlyTotal }) => {
             {monthLabel}
           </span>
         </div>
-        <p className="max-w-full break-words text-[clamp(1.9rem,4vw,2.4rem)] font-semibold leading-tight">
-          {formatCurrency(monthlyTotal)}
+        <p
+          className="max-w-full truncate text-[clamp(1.9rem,4vw,2.4rem)] font-semibold leading-tight"
+          title={formatCurrency(monthlyTotal)}
+        >
+          {formatCompactCurrency(monthlyTotal)}
         </p>
       </div>
       <div className="mt-5 h-2 rounded-full bg-white/15">
@@ -54,8 +64,11 @@ const HighestExpenseCard = ({ expense }) => (
             : "Add expenses to identify your largest spend."}
         </p>
       </div>
-      <p className="max-w-full break-words text-xl font-semibold leading-tight text-slate-950 sm:text-right">
-        {formatCurrency(expense?.amount ?? 0)}
+      <p
+        className="max-w-full truncate text-xl font-semibold leading-tight text-slate-950 sm:text-right"
+        title={formatCurrency(expense?.amount ?? 0)}
+      >
+        {formatCompactCurrency(expense?.amount ?? 0)}
       </p>
     </div>
   </article>
@@ -82,7 +95,8 @@ const SummaryPanel = ({ summary }) => {
         <SummaryCard
           helper="Total value across the visible expense list."
           label="Total spend"
-          value={formatCurrency(summary.totalAmount)}
+          fullValue={formatCurrency(summary.totalAmount)}
+          value={formatCompactCurrency(summary.totalAmount)}
         />
         <MonthlyTotalCard
           monthLabel={summary.monthLabel}
@@ -100,7 +114,8 @@ const SummaryPanel = ({ summary }) => {
               : "Add expenses to calculate an average."
           }
           label="Average expense"
-          value={formatCurrency(summary.averageAmount)}
+          fullValue={formatCurrency(summary.averageAmount)}
+          value={formatCompactCurrency(summary.averageAmount)}
         />
       </div>
 
