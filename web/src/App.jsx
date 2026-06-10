@@ -196,6 +196,35 @@ const CategoryPreview = ({ categoryBreakdown, onOpenAnalytics }) => {
   );
 };
 
+const QuickActionsPanel = ({ onNavigate }) => (
+  <section className="rounded-[1.5rem] border border-white/70 bg-slate-950 p-5 text-white shadow-dashboard-card sm:p-6">
+    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-300">
+      Quick actions
+    </p>
+    <h2 className="mt-2 text-2xl font-semibold">Control center</h2>
+    <p className="mt-2 text-sm leading-6 text-slate-300">
+      Jump into the task you need without scanning the whole product.
+    </p>
+    <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      {[
+        ["Add expense", "add"],
+        ["Review records", "transactions"],
+        ["Set budgets", "budgets"],
+        ["Open reports", "analytics"],
+      ].map(([label, section]) => (
+        <button
+          className="min-h-16 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-left text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/10 focus:outline-none focus:ring-4 focus:ring-white/20"
+          key={section}
+          onClick={() => onNavigate(section)}
+          type="button"
+        >
+          {label}
+        </button>
+      ))}
+    </div>
+  </section>
+);
+
 const App = () => {
   const defaultFilters = {
     category: "",
@@ -431,6 +460,8 @@ const App = () => {
                     value={formatCurrency(summary.highestExpense?.amount ?? 0)}
                   />
                 </div>
+
+                <QuickActionsPanel onNavigate={navigateTo} />
 
                 <div className="grid gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(360px,0.75fr)]">
                   <RecentTransactionsPreview
