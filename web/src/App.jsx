@@ -488,6 +488,36 @@ const App = () => {
 
             {activeSection === "transactions" ? (
               <div className="space-y-6">
+                <section className="grid gap-4 rounded-[1.5rem] border border-white/70 bg-white/95 p-5 shadow-dashboard-card sm:p-6 lg:grid-cols-3">
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">
+                      Visible records
+                    </p>
+                    <p className="mt-2 text-3xl font-semibold text-slate-950">
+                      {expenses.length}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">
+                      Visible value
+                    </p>
+                    <p className="mt-2 text-3xl font-semibold text-slate-950">
+                      {formatCurrency(summary.totalAmount)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">
+                      Filter state
+                    </p>
+                    <p className="mt-2 text-base font-semibold text-slate-950">
+                      {hasActiveFilters ? "Filtered view" : "All records"}
+                    </p>
+                    <p className="mt-1 text-sm text-slate-500">
+                      Export uses the records currently visible below.
+                    </p>
+                  </div>
+                </section>
+
                 <ExpenseCategoryFilter
                   category={filters.category}
                   endDate={filters.endDate}
