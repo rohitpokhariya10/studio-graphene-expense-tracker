@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { EXPENSE_CATEGORIES } from "../../constants/expenseCategories.js";
 import { getBudgets, updateBudgets } from "../../services/budgetApi.js";
-import { formatCurrency } from "../../utils/formatters.js";
+import {
+  formatCompactCurrency,
+  formatCurrency,
+} from "../../utils/formatters.js";
 
 const getCurrentMonthSpendByCategory = (expenses) => {
   const now = new Date();
@@ -153,8 +156,11 @@ const BudgetTracker = ({ expenses }) => {
                     >
                       {category.label}
                     </label>
-                    <p className="mt-1 text-xs font-medium text-slate-500">
-                      {formatCurrency(spent)} spent this month
+                    <p
+                      className="mt-1 max-w-56 truncate text-xs font-medium text-slate-500"
+                      title={`${formatCurrency(spent)} spent this month`}
+                    >
+                      {formatCompactCurrency(spent)} spent this month
                     </p>
                   </div>
                   <p
@@ -163,11 +169,18 @@ const BudgetTracker = ({ expenses }) => {
                         ? "bg-red-100 text-red-700"
                         : "bg-emerald-50 text-emerald-700"
                     }`}
+                    title={
+                      hasBudget
+                        ? isOverBudget
+                          ? `${formatCurrency(Math.abs(remaining))} over`
+                          : `${formatCurrency(remaining)} left`
+                        : "No limit"
+                    }
                   >
                     {hasBudget
                       ? isOverBudget
-                        ? `${formatCurrency(Math.abs(remaining))} over`
-                        : `${formatCurrency(remaining)} left`
+                        ? `${formatCompactCurrency(Math.abs(remaining))} over`
+                        : `${formatCompactCurrency(remaining)} left`
                       : "No limit"}
                   </p>
                 </div>
