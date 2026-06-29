@@ -36,7 +36,7 @@ describe("budget controller", () => {
     });
     expect(next).not.toHaveBeenCalled();
   });
-
+   
   it("updates budgets", async () => {
     const budgets = [{ amount: 5000, category: "food" }];
     const req = { body: { budgets } };

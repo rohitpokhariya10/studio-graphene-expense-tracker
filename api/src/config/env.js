@@ -8,6 +8,7 @@ const numberFromEnv = (value, fallback) => {
 };
 
 const listFromEnv = (value, fallback) =>
+  //nullish coalescing operator
   (value ?? fallback)
     .split(",")
     .map((item) => item.trim())

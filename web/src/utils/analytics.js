@@ -3,6 +3,7 @@ export const getMonthlyTotal = (expenses) => {
   const currentMonth = now.getMonth();
   const currentYear = now.getFullYear();
 
+  // Include only expenses from the current calendar month and year.
   return expenses.reduce((total, expense) => {
     const expenseDate = new Date(expense.date);
 
@@ -19,11 +20,14 @@ export const getMonthlyTotal = (expenses) => {
 
 export const getExpenseSummary = (expenses) => {
   const now = new Date();
+
   // Summary is based on the currently visible list, so filters update analytics instantly.
   const totalAmount = expenses.reduce(
     (total, expense) => total + Number(expense.amount),
     0
   );
+
+  // Keep the single expense with the largest amount for the summary card.
   const highestExpense = expenses.reduce((highest, expense) => {
     if (!highest || Number(expense.amount) > Number(highest.amount)) {
       return expense;
@@ -48,11 +52,13 @@ export const getExpenseSummary = (expenses) => {
 };
 
 export const getCategoryBreakdown = (expenses, categories) => {
+  // Convert category values into display labels for chart and report UI.
   const categoryLabels = categories.reduce((labels, category) => {
     labels[category.value] = category.label;
     return labels;
   }, {});
 
+  // Group expenses by category, then sort by highest spending first.
   return expenses
     .reduce((breakdown, expense) => {
       const existingCategory = breakdown.find(
